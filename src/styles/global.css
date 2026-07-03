@@ -64,7 +64,7 @@
   --color-bg-subtle: #f1efe9;
   --color-text: #1c1b22;
   --color-text-muted: #57534e;
-  --color-text-faint: #a19c94;
+  --color-text-faint: #6f6a63; /* ≥4.5:1 na --color-bg (WCAG AA small text) */
   --color-border: #e5e2da;
   --color-accent: #4338ca;
   --color-accent-hover: #3730a3;
@@ -79,7 +79,7 @@ html.dark {
   --color-bg-subtle: #232131;
   --color-text: #f0eee9;
   --color-text-muted: #a8a29e;
-  --color-text-faint: #6f6a72;
+  --color-text-faint: #8f8a97; /* ≥4.5:1 na dark --color-bg */
   --color-border: #2c2a3a;
   --color-accent: #818cf8;
   --color-accent-hover: #a5b4fc;
