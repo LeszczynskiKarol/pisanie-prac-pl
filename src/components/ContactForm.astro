@@ -1,0 +1,427 @@
+---
+// ContactForm — gotowy formularz z drag&drop upload, presigned PUT, Consent Mode.
+// Domyślnie ZAŁĄCZNIKI WŁĄCZONE (zgodne z mekra). Wyłącz przez prop `attachments={false}`
+// JEŚLI brief explicite mówi "bez załączników" — inaczej zostaw default.
+//
+// Wymaga:
+// - PUBLIC_API_BASE_URL ustawiony przy buildzie (z .env.deploy, ustawia setup-contact-form.sh)
+// - Lambdy: <brand>-contact, <brand>-presign (domyślnie ON)
+// - Bucket S3 <brand>-attachments z CORS pozwalającym PUT z domeny
+//
+// Użycie w sekcji kontakt:
+//   <ContactForm
+//     extraFields={[
+//       { name: "model", label: "Marka i model", type: "text", placeholder: "np. Lenze 8400" },
+//       { name: "urgent", label: "Ekspres (do 48h)", type: "checkbox" },
+//     ]}
+//   />
+
+import Icon from "./Icon.astro";
+
+interface ExtraField {
+  name: string;
+  label: string;
+  type: "text" | "tel" | "select" | "textarea" | "checkbox";
+  placeholder?: string;
+  required?: boolean;
+  options?: string[]; // for type: select
+  rows?: number;       // for type: textarea
+}
+
+interface Props {
+  attachments?: boolean;       // default true
+  attachmentLabel?: string;     // label dla dropzone
+  attachmentHint?: string;      // hint pod dropzone (np. "PDF, zdjęcia, DWG")
+  messageLabel?: string;        // default "Wiadomość"
+  messagePlaceholder?: string;
+  submitLabel?: string;         // default "Wyślij zapytanie"
+  successTitle?: string;
+  successText?: string;
+  extraFields?: ExtraField[];
+  rodoText?: string;            // tekst przy checkboxie RODO
+}
+
+const {
+  attachments = true,
+  attachmentLabel = "Załączniki",
+  attachmentHint = "PDF, zdjęcia, dokumenty (maks. 10 MB/plik, do 5 plików)",
+  messageLabel = "Wiadomość",
+  messagePlaceholder = "Opisz krótko swoją sprawę…",
+  submitLabel = "Wyślij zapytanie",
+  successTitle = "Wiadomość wysłana",
+  successText = "Odezwiemy się najszybciej jak to możliwe.",
+  extraFields = [],
+  rodoText = "Wyrażam zgodę na przetwarzanie moich danych w celu odpowiedzi na zapytanie.",
+} = Astro.props;
+
+const apiBase = import.meta.env.PUBLIC_API_BASE_URL || "";
+---
+
+<div class="card-base rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-6 md:p-8" data-api-base={apiBase}>
+  {/* Success message */}
+  <div
+    id="cf-success"
+    class="hidden rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-6 text-center"
+    role="status"
+    aria-live="polite"
+  >
+    <Icon name="check-circle" class="mx-auto h-10 w-10 text-emerald-500" />
+    <h4 class="mt-3 font-semibold text-[var(--color-text)]">{successTitle}</h4>
+    <p class="mt-1 text-sm text-[var(--color-text-muted)]">{successText}</p>
+  </div>
+
+  {/* Error banner */}
+  <div
+    id="cf-error"
+    class="mb-4 hidden rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-600 dark:text-red-400"
+    role="alert"
+    aria-live="assertive"
+  >
+    <span id="cf-error-text"></span>
+  </div>
+
+  <form id="cf-form" class="space-y-5" novalidate>
+    {/* Imię / firma */}
+    <div>
+      <label class="form-label" for="cf-name">Imię lub nazwa firmy *</label>
+      <input id="cf-name" name="name" type="text" class="form-input" required minlength="2" />
+    </div>
+
+    {/* Email + telefon w gridzie */}
+    <div class="grid gap-4 sm:grid-cols-2">
+      <div>
+        <label class="form-label" for="cf-email">E-mail *</label>
+        <input id="cf-email" name="email" type="email" class="form-input" required />
+      </div>
+      <div>
+        <label class="form-label" for="cf-phone">Telefon</label>
+        <input id="cf-phone" name="phone" type="tel" class="form-input" />
+      </div>
+    </div>
+
+    {/* Pola dodatkowe per projekt */}
+    {extraFields.map((f) => (
+      <div>
+        {f.type !== "checkbox" && (
+          <label class="form-label" for={`cf-${f.name}`}>
+            {f.label}{f.required ? " *" : ""}
+          </label>
+        )}
+        {f.type === "text" || f.type === "tel" ? (
+          <input
+            id={`cf-${f.name}`}
+            name={f.name}
+            type={f.type}
+            class="form-input"
+            placeholder={f.placeholder}
+            required={f.required}
+          />
+        ) : f.type === "select" ? (
+          <select id={`cf-${f.name}`} name={f.name} class="form-input" required={f.required}>
+            <option value="">Wybierz…</option>
+            {f.options?.map((opt) => <option value={opt}>{opt}</option>)}
+          </select>
+        ) : f.type === "textarea" ? (
+          <textarea
+            id={`cf-${f.name}`}
+            name={f.name}
+            class="form-input"
+            rows={f.rows ?? 3}
+            placeholder={f.placeholder}
+            required={f.required}
+          />
+        ) : f.type === "checkbox" ? (
+          <label class="flex cursor-pointer items-start gap-3 text-sm text-[var(--color-text-muted)]">
+            <input id={`cf-${f.name}`} name={f.name} type="checkbox" class="mt-0.5 h-4 w-4 accent-[var(--color-accent)]" />
+            <span>{f.label}</span>
+          </label>
+        ) : null}
+      </div>
+    ))}
+
+    {/* Wiadomość */}
+    <div>
+      <label class="form-label" for="cf-message">{messageLabel} *</label>
+      <textarea
+        id="cf-message"
+        name="message"
+        class="form-input"
+        rows="5"
+        required
+        minlength="10"
+        placeholder={messagePlaceholder}
+      />
+    </div>
+
+    {/* Honeypot — boty wypełnią, ludzie nie zobaczą */}
+    <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">
+      <label for="cf-company">Firma (zostaw puste)</label>
+      <input id="cf-company" name="company" type="text" tabindex="-1" autocomplete="off" />
+    </div>
+
+    {/* Załączniki — drag&drop dropzone */}
+    {attachments && (
+      <div>
+        <label class="form-label">
+          {attachmentLabel}
+          <span class="ml-1 font-normal text-[var(--color-text-faint)]">(opcjonalnie)</span>
+        </label>
+        <div
+          id="cf-dropzone"
+          class="relative rounded-xl border-2 border-dashed border-[var(--color-border)] bg-[var(--color-bg-subtle)] p-6 text-center transition-colors hover:border-[var(--color-accent)]/50"
+        >
+          <input
+            type="file"
+            id="cf-file-input"
+            multiple
+            accept=".pdf,.doc,.docx,.txt,.rtf,.odt,.jpg,.jpeg,.png,.gif,.webp,.svg,.heic,.pptx,.xlsx,.xls,.csv,.zip,.rar,.7z,.dwg,.dxf,.step,.stp,.iges,.igs,.mp4,.mov"
+            class="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+            aria-label="Wybierz pliki"
+          />
+          <Icon name="upload-cloud" class="mx-auto h-8 w-8 text-[var(--color-text-faint)]" />
+          <p class="mt-2 text-sm text-[var(--color-text-muted)]">
+            Przeciągnij pliki lub <span class="font-medium text-[var(--color-accent)]">kliknij aby wybrać</span>
+          </p>
+          <p class="mt-1 text-xs text-[var(--color-text-faint)]">{attachmentHint}</p>
+        </div>
+        <ul id="cf-file-list" class="mt-3 space-y-2"></ul>
+        <div id="cf-upload-progress" class="mt-3 hidden">
+          <div class="flex items-center gap-2 text-sm text-[var(--color-text-muted)]">
+            <Icon name="loader" class="h-4 w-4 animate-spin text-[var(--color-accent)]" />
+            <span id="cf-upload-status">Przesyłanie plików…</span>
+          </div>
+        </div>
+      </div>
+    )}
+
+    {/* RODO */}
+    <label class="flex cursor-pointer items-start gap-3 text-sm text-[var(--color-text-muted)]">
+      <input name="rodo" type="checkbox" required class="mt-0.5 h-4 w-4 accent-[var(--color-accent)]" />
+      <span>{rodoText} <a href="/polityka-prywatnosci" class="underline">Polityka prywatności</a>.</span>
+    </label>
+
+    {/* Submit */}
+    <button
+      type="submit"
+      id="cf-submit"
+      class="inline-flex w-full items-center justify-center gap-2 rounded-md bg-[var(--color-accent)] px-6 py-3 text-base font-medium text-[var(--color-accent-fg)] transition-colors hover:bg-[var(--color-accent-hover)] disabled:cursor-not-allowed disabled:opacity-60"
+    >
+      <span id="cf-submit-text">{submitLabel}</span>
+      <Icon name="loader" id="cf-submit-spinner" class="hidden h-4 w-4 animate-spin" />
+    </button>
+  </form>
+</div>
+
+<script is:inline>
+  (function () {
+    var root = document.currentScript.previousElementSibling;
+    while (root && !root.matches('[data-api-base]')) root = root.previousElementSibling;
+    if (!root) return;
+
+    var API_BASE = root.getAttribute('data-api-base') || '';
+    var MAX_FILE_SIZE = 10 * 1024 * 1024;
+    var MAX_FILES = 5;
+    var selectedFiles = [];
+
+    var form = root.querySelector('#cf-form');
+    var fileInput = root.querySelector('#cf-file-input');
+    var fileList = root.querySelector('#cf-file-list');
+    var dropzone = root.querySelector('#cf-dropzone');
+    var uploadProgress = root.querySelector('#cf-upload-progress');
+    var uploadStatus = root.querySelector('#cf-upload-status');
+    var submitBtn = root.querySelector('#cf-submit');
+    var submitText = root.querySelector('#cf-submit-text');
+    var submitSpinner = root.querySelector('#cf-submit-spinner');
+    var successBox = root.querySelector('#cf-success');
+    var errorBox = root.querySelector('#cf-error');
+    var errorText = root.querySelector('#cf-error-text');
+
+    if (!form) return;
+
+    // Drag&drop
+    if (dropzone) {
+      ['dragenter', 'dragover'].forEach(function (ev) {
+        dropzone.addEventListener(ev, function (e) {
+          e.preventDefault();
+          dropzone.classList.add('border-[var(--color-accent)]');
+        });
+      });
+      ['dragleave', 'drop'].forEach(function (ev) {
+        dropzone.addEventListener(ev, function (e) {
+          e.preventDefault();
+          dropzone.classList.remove('border-[var(--color-accent)]');
+        });
+      });
+      dropzone.addEventListener('drop', function (e) {
+        addFiles(e.dataTransfer.files);
+      });
+      fileInput.addEventListener('change', function (e) {
+        addFiles(e.target.files);
+        fileInput.value = '';
+      });
+    }
+
+    function addFiles(files) {
+      for (var i = 0; i < files.length; i++) {
+        var file = files[i];
+        if (selectedFiles.length >= MAX_FILES) {
+          showError('Maksymalnie ' + MAX_FILES + ' plików.');
+          break;
+        }
+        if (file.size > MAX_FILE_SIZE) {
+          showError(file.name + ' jest za duży (maks. 10 MB).');
+          continue;
+        }
+        var dup = selectedFiles.some(function (f) { return f.name === file.name && f.size === file.size; });
+        if (!dup) selectedFiles.push(file);
+      }
+      renderFileList();
+    }
+
+    function renderFileList() {
+      if (!fileList) return;
+      fileList.innerHTML = '';
+      selectedFiles.forEach(function (file, idx) {
+        var li = document.createElement('li');
+        li.className = 'flex items-center justify-between gap-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-subtle)] px-3 py-2 text-sm';
+        li.innerHTML =
+          '<div class="flex min-w-0 items-center gap-2">' +
+            '<svg class="h-4 w-4 shrink-0 text-[var(--color-accent)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l8.57-8.57A4 4 0 0118 8.84l-8.59 8.57a2 2 0 01-2.83-2.83l8.49-8.48"/></svg>' +
+            '<span class="truncate text-[var(--color-text)]">' + escapeHtml(file.name) + '</span>' +
+            '<span class="text-[var(--color-text-faint)]">(' + formatSize(file.size) + ')</span>' +
+          '</div>' +
+          '<button type="button" data-idx="' + idx + '" class="cf-remove-file p-1 text-[var(--color-text-muted)] hover:text-[var(--color-text)]" aria-label="Usuń plik">' +
+            '<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>' +
+          '</button>';
+        fileList.appendChild(li);
+      });
+      fileList.querySelectorAll('.cf-remove-file').forEach(function (b) {
+        b.addEventListener('click', function () {
+          selectedFiles.splice(parseInt(this.dataset.idx, 10), 1);
+          renderFileList();
+        });
+      });
+    }
+
+    function formatSize(b) {
+      if (b < 1024) return b + ' B';
+      if (b < 1048576) return (b / 1024).toFixed(1) + ' KB';
+      return (b / 1048576).toFixed(1) + ' MB';
+    }
+
+    function escapeHtml(s) {
+      return String(s || '').replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      });
+    }
+
+    function uploadFile(file) {
+      return fetch(API_BASE + '/presign', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          filename: file.name,
+          contentType: file.type || 'application/octet-stream',
+          size: file.size,
+        }),
+      })
+        .then(function (r) {
+          if (!r.ok) return r.json().then(function (e) { throw new Error(e.error || 'Błąd presign'); });
+          return r.json();
+        })
+        .then(function (data) {
+          return fetch(data.uploadUrl, {
+            method: 'PUT',
+            headers: { 'Content-Type': file.type || 'application/octet-stream' },
+            body: file,
+          }).then(function (res) {
+            if (!res.ok) throw new Error('Błąd uploadu: ' + file.name);
+            return { key: data.key, name: file.name, size: file.size };
+          });
+        });
+    }
+
+    function setLoading(loading) {
+      submitBtn.disabled = loading;
+      if (submitText) submitText.textContent = loading ? 'Wysyłanie…' : (submitText.dataset.original || submitText.textContent);
+      if (!submitText.dataset.original && !loading) submitText.dataset.original = submitText.textContent;
+      if (submitSpinner) submitSpinner.classList.toggle('hidden', !loading);
+    }
+
+    function showError(msg) {
+      if (!errorBox) return;
+      errorText.textContent = msg;
+      errorBox.classList.remove('hidden');
+    }
+
+    function hideError() {
+      if (errorBox) errorBox.classList.add('hidden');
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      hideError();
+
+      var fd = new FormData(form);
+      var payload = {};
+      fd.forEach(function (v, k) {
+        if (k === 'rodo') payload[k] = true;
+        else payload[k] = v;
+      });
+
+      if (!payload.name || !payload.email || !payload.message) {
+        showError('Uzupełnij wymagane pola.');
+        return;
+      }
+      if (!payload.rodo) {
+        showError('Wymagana zgoda na przetwarzanie danych.');
+        return;
+      }
+
+      setLoading(true);
+
+      var attachments = [];
+      var chain = Promise.resolve();
+      if (selectedFiles.length > 0) {
+        uploadProgress.classList.remove('hidden');
+        selectedFiles.forEach(function (f, i) {
+          chain = chain.then(function () {
+            uploadStatus.textContent = 'Przesyłanie ' + (i + 1) + ' z ' + selectedFiles.length + '…';
+            return uploadFile(f).then(function (r) { attachments.push(r); });
+          });
+        });
+      }
+
+      chain
+        .then(function () {
+          uploadProgress.classList.add('hidden');
+          if (attachments.length > 0) payload.attachments = attachments;
+          return fetch(API_BASE + '/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+        })
+        .then(function (r) {
+          if (!r.ok) return r.json().then(function (e) { throw new Error(e.error || 'Błąd wysyłania'); });
+          return r.json();
+        })
+        .then(function () {
+          form.classList.add('hidden');
+          successBox.classList.remove('hidden');
+          selectedFiles = [];
+          renderFileList();
+          // GA4 conversion event
+          if (typeof window.gtag === 'function') {
+            window.gtag('event', 'generate_lead', { event_category: 'contact_form' });
+          }
+        })
+        .catch(function (err) {
+          console.error('Contact form error:', err);
+          showError(err.message || 'Wystąpił błąd. Spróbuj ponownie.');
+          uploadProgress && uploadProgress.classList.add('hidden');
+        })
+        .then(function () { setLoading(false); });
+    });
+  })();
+</script>

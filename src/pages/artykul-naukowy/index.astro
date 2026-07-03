@@ -1,0 +1,121 @@
+---
+import WorkTypeLayout from "../../layouts/WorkTypeLayout.astro";
+import IconBadge from "../../components/IconBadge.astro";
+import Icon from "../../components/Icon.astro";
+import { workTypes } from "../../data/workTypes";
+
+const workType = workTypes.find((t) => t.slug === "artykul-naukowy")!;
+
+const scope = [
+  {
+    icon: "compass-plan",
+    title: "Koncepcja i dobór czasopisma",
+    text: "Zanim padnie pierwsze zdanie: co jest nowością Twojego tekstu i które czasopismo (punktacja, zakres, czas recenzji) ma sens dla tej nowości.",
+  },
+  {
+    icon: "layers-chapters",
+    title: "Struktura IMRaD",
+    text: "Introduction, Methods, Results, Discussion — pomagam rozłożyć materiał tak, żeby każda sekcja robiła swoją robotę i nie dublowała sąsiednich.",
+    accent: "highlight",
+  },
+  {
+    icon: "book-open",
+    title: "Wzorcowe fragmenty",
+    text: "Wzorcowy wstęp albo dyskusja pod Twoje badanie — najtrudniejsze sekcje artykułu pokazane na Twoim materiale, nie na abstrakcyjnym przykładzie.",
+  },
+  {
+    icon: "magnifier-text",
+    title: "Przegląd literatury",
+    text: "Stan badań zbudowany wokół luki, którą wypełniasz — nie chronologiczna wyliczanka „autor X stwierdził, autor Y zauważył”.",
+  },
+  {
+    icon: "draft-check",
+    title: "Redakcja przed wysyłką",
+    text: "Wymogi edytorskie czasopisma, abstrakt, słowa kluczowe, spójność cytowań (APA, Chicago, Vancouver — co redakcja każe).",
+  },
+  {
+    icon: "shield-check",
+    title: "Odpowiedzi na recenzje",
+    text: "Response letter punkt po punkcie: co poprawiasz, co bronisz i jak nie zrazić recenzenta drugiego, broniąc się przed pierwszym.",
+  },
+] as const;
+
+const faq = [
+  {
+    q: "Dostałem „major revision” i nie wiem, od czego zacząć. Pomożesz?",
+    a: "To moja ulubiona sytuacja, bo major revision znaczy, że redakcja chce ten tekst — tylko poprawiony. Rozkładamy recenzje na listę zarzutów, dzielimy na „poprawiam”, „wyjaśniam w response letter” i „grzecznie polemizuję”, po czym przechodzimy przez nie po kolei. Większość odrzuconych po revision tekstów przepada nie na merytoryce, a na chaotycznej odpowiedzi recenzentom.",
+  },
+  {
+    q: "To mój pierwszy artykuł. Czego się spodziewać czasowo?",
+    a: "Realistycznie: kilka tygodni na tekst (przy gotowych wynikach badań), potem od dwóch miesięcy do roku w recenzjach, zależnie od czasopisma. Planując publikację „do dorobku przed obroną doktoratu”, licz wstecz od terminu i dodaj margines na revision. Przy wycenie mówię też, które etapy przyspieszysz, a których nie przeskoczy nikt.",
+  },
+  {
+    q: "Piszesz artykuły „pod punkty” do dowolnego czasopisma?",
+    a: "Nie piszę artykułów do podpisania cudzym nazwiskiem — przy tekstach naukowych autorstwo to odpowiedzialność, którą bierzesz na siebie publicznie i na lata. Pomagam natomiast w całym warsztacie: strukturze, redakcji, przygotowaniu do recenzji. Badanie i tezy muszą być Twoje, bo to Ty będziesz ich bronić — czasem dosłownie, na konferencji.",
+  },
+  {
+    q: "Artykuł po angielsku do czasopisma z listy JCR — co realnie zrobisz?",
+    a: "Pomogę ułożyć strukturę i argumentację oraz zredagować tekst do poziomu „czytelnego dla recenzenta”. Końcowy language editing pod czasopisma anglojęzyczne zostawiam profesjonalnym proofreaderom lub usługom redakcyjnym wydawnictw — i mówię to wprost, zamiast obiecywać angielszczyznę native speakera.",
+  },
+];
+---
+
+<WorkTypeLayout
+  workType={workType}
+  title="Pomoc w pisaniu artykułu naukowego — IMRaD i recenzje"
+  description="Pomoc przy artykule naukowym: struktura IMRaD, przegląd literatury, redakcja, dobór czasopisma, odpowiedzi na recenzje. Dla doktorantów i nie tylko."
+  heading="Pomoc w pisaniu artykułu naukowego"
+  lead="Między dobrym badaniem a opublikowanym artykułem stoi warsztat, którego mało kto uczy: struktura IMRaD, retoryka wstępu, dyplomacja response lettera. Pomagam doktorantom i autorom pierwszych publikacji przejść tę drogę bez błądzenia."
+  scopeTitle="W czym pomagam autorom"
+  scope={scope}
+  faq={faq}
+>
+  <section class="border-b border-[var(--color-border)]">
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+      <div class="max-w-2xl">
+        <IconBadge icon="magnifier-text" label="Warsztat publikacyjny" tone="accent" />
+        <h2 class="mt-4 font-serif text-[length:var(--text-fs-h2)] font-medium leading-tight tracking-tight">
+          Dwie sekcje, które decydują o losie tekstu
+        </h2>
+        <p class="mt-4 max-w-[62ch] leading-relaxed text-[var(--color-text-muted)]">
+          Recenzenci deklarują, że czytają całość. W praktyce decyzja zapada na
+          wstępie i dyskusji — metody i wyniki są sprawdzane, ale to nie one
+          przekonują. Właśnie dlatego wzorcowe fragmenty robię najczęściej z tych
+          dwóch sekcji:
+        </p>
+      </div>
+
+      <div class="mt-10 grid gap-4 md:grid-cols-2">
+        <div class="card-accent-top rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-6 md:p-8">
+          <h3 class="font-sans text-lg font-semibold">Wstęp — od luki do pytania</h3>
+          <p class="mt-3 text-[0.9375rem] leading-relaxed text-[var(--color-text-muted)]">
+            Dobry wstęp wykonuje trzy ruchy: pokazuje terytorium (co wiadomo),
+            wskazuje lukę (czego nie wiadomo albo co wiadomo błędnie) i zajmuje
+            ją (co wnosi Twój tekst). Ta konstrukcja — znana jako model CARS —
+            działa od nauk społecznych po techniczne. Słabe wstępy robią
+            wszystko poza tym: referują historię dziedziny od Arystotelesa
+            i zostawiają czytelnika bez powodu, żeby czytać dalej.
+          </p>
+        </div>
+        <div class="card-accent-top rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-6 md:p-8">
+          <h3 class="font-sans text-lg font-semibold">Dyskusja — rozmowa, nie streszczenie</h3>
+          <p class="mt-3 text-[0.9375rem] leading-relaxed text-[var(--color-text-muted)]">
+            Najczęstszy zarzut recenzentów: „Results are repeated, not
+            discussed”. Dyskusja ma konfrontować Twoje wyniki z literaturą ze
+            wstępu — potwierdzać, podważać, wyjaśniać rozbieżności — oraz uczciwie
+            nazwać ograniczenia badania, zanim zrobi to recenzent. Na wzorcowym
+            fragmencie zobaczysz, jak zbudować tę rozmowę zdanie po zdaniu.
+          </p>
+        </div>
+      </div>
+
+      <p class="mt-8 flex items-start gap-2.5 text-[0.9375rem] text-[var(--color-text-muted)]">
+        <Icon name="arrow-right" class="mt-1 h-4 w-4 shrink-0 text-[var(--color-accent)]" />
+        <span>
+          Artykuł powstaje przy okazji doktoratu? Zobacz też
+          <a href="/praca-doktorska/" class="font-medium">wsparcie przy rozprawie doktorskiej</a>.
+        </span>
+      </p>
+    </div>
+  </section>
+</WorkTypeLayout>

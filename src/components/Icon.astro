@@ -1,0 +1,50 @@
+---
+// Icon — WŁASNY system ikon. Zero zależności od lucide / heroicons / iconify / astro-icon.
+// Renderuje ręcznie rysowane SVG z rejestru src/icons/set.ts (siatka 24×24,
+// stroke = currentColor). Każdy projekt PROJEKTUJE swój zestaw — patrz nagłówek
+// src/icons/set.ts oraz playbook 05-design-system.md §5.
+//
+// Użycie:
+//   <Icon name="arrow-right" class="h-4 w-4" />
+//   <Icon name="wrench" size={28} stroke={2} />
+//
+// Nieznana nazwa = błąd przy buildzie (świadomie — wymusza dodanie własnej
+// ikony do set.ts zamiast cichego fallbacku albo sięgnięcia po lucide).
+
+import { icons } from "../icons/set";
+
+interface Props {
+  name: keyof typeof icons | string;
+  class?: string;
+  size?: number | string;
+  stroke?: number;
+  [key: string]: unknown; // przepuszczamy id, aria-*, data-* itp. na <svg>
+}
+
+const { name, class: className, size = 24, stroke = 1.75, ...rest } = Astro.props;
+
+const body = (icons as Record<string, string>)[name as string];
+if (!body) {
+  throw new Error(
+    `<Icon name="${name}" /> — brak takiej ikony w src/icons/set.ts.\n` +
+      `Zaprojektuj ją ręcznie jako SVG (siatka 24×24, stroke) i dodaj do rejestru.\n` +
+      `NIE instaluj lucide/heroicons — własny zestaw ikon to twardy wymóg (playbook 05 §5).`,
+  );
+}
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 24 24"
+  width={size}
+  height={size}
+  fill="none"
+  stroke="currentColor"
+  stroke-width={stroke}
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  class={className}
+  aria-hidden="true"
+  {...rest}
+  set:html={body}
+/>

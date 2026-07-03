@@ -1,0 +1,199 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import Icon from "../../components/Icon.astro";
+import IconBadge from "../../components/IconBadge.astro";
+import BackgroundDecor from "../../components/BackgroundDecor.astro";
+import CtaSection from "../../components/CtaSection.astro";
+import { siteConfig } from "../../config/site";
+
+const pageUrl = `${siteConfig.url}/jak-pomagam/`;
+
+const services = [
+  {
+    icon: "chat-guidance",
+    title: "Konsultacje 1:1",
+    lead: "Godzinna rozmowa o Twojej pracy — online, po godzinach też.",
+    text: "Omawiamy temat, konspekt, problem badawczy albo konkretny rozdział, na którym utknąłeś. Wychodzisz z listą kroków, a nie z ogólnikami. Konsultacja bywa całością współpracy — części osób wystarczy dobre pchnięcie.",
+  },
+  {
+    icon: "compass-plan",
+    title: "Plan pracy i metodologia",
+    lead: "Konspekt, który promotor akceptuje, i metoda, którą obronisz.",
+    text: "Rozpisuję strukturę rozdziałów z krótkim opisem zawartości każdego, proponuję literaturę na start i — przy pracach badawczych — metodę z uzasadnieniem. Dostajesz dokument, z którym idziesz do promotora po akceptację.",
+  },
+  {
+    icon: "book-open",
+    title: "Opracowania wzorcowe",
+    lead: "Przykładowy tekst pod Twój temat — do nauki, nie do oddania.",
+    text: "Piszę od zera rozdział albo całe opracowanie na Twój temat, według wytycznych Twojej uczelni. Czytasz, rozumiesz konstrukcję, uczysz się stylu i cytowania — i na tej podstawie piszesz własną pracę. Dokładnie tak, jak uczysz się z przykładowych rozwiązań zadań z matematyki.",
+    highlight: true,
+  },
+  {
+    icon: "draft-check",
+    title: "Redakcja i korekta",
+    lead: "Twój tekst, doprowadzony do porządku — z wyjaśnieniami.",
+    text: "Poprawiam język, logikę wywodu, przypisy i formatowanie według wymogów uczelni. Wszystko w trybie śledzenia zmian, z komentarzami dlaczego — więc przy okazji uczysz się warsztatu. Redakcja nie zmienia autorstwa: tekst i tezy pozostają Twoje.",
+  },
+  {
+    icon: "magnifier-text",
+    title: "Kwerenda literatury",
+    lead: "Lista źródeł, które mają sens — zamiast trzech nocy szukania.",
+    text: "Do tematu dobieram monografie, artykuły naukowe i raporty z konkretnymi namiary (autor, tytuł, gdzie znaleźć). Zaznaczam, co jest fundamentem, a co ozdobnikiem do bibliografii. Na życzenie — także źródła anglojęzyczne.",
+  },
+  {
+    icon: "grad-cap",
+    title: "Przygotowanie do obrony",
+    lead: "Autoreferat i pytania komisji — bez niespodzianek.",
+    text: "Piszemy autoreferat (5–10 minut mówienia), przechodzimy przez prawdopodobne pytania do Twojej pracy i robimy próbę odpowiedzi. Komisje pytają zaskakująco przewidywalnie — trzeba tylko wiedzieć, czego szukają.",
+  },
+];
+
+const notDoing = [
+  {
+    title: "Nie firmuję oddawania cudzych tekstów jako własnych",
+    text: "Opracowanie wzorcowe to materiał poglądowy. Co z nim zrobisz, jest Twoją odpowiedzialnością — ale ode mnie zawsze usłyszysz jasno, do czego służy i gdzie przebiega granica prawa.",
+  },
+  {
+    title: "Nie sprzedaję gotowców z szuflady",
+    text: "Każde opracowanie powstaje od zera, pod konkretny temat i wytyczne. Teksty „uniwersalne”, krążące między rocznikami, to najkrótsza droga do problemów z JSA — i przeciwieństwo nauki.",
+  },
+  {
+    title: "Nie obiecuję cudów w 24 godziny",
+    text: "Wycenę dostaniesz w dobę. Porządny tekst — w terminie, który uczciwie ustalimy. Jeśli deadline jest nierealny, powiem to przy wycenie zamiast dostarczyć bylejakość.",
+  },
+  {
+    title: "Nie znikam po przelewie",
+    text: "Współpraca jest etapowa: płacisz za etap po jego akceptacji, każdy etap ma dwie tury poprawek w cenie. Masz mój kontakt, odpowiadam codziennie.",
+  },
+];
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Strona główna", item: `${siteConfig.url}/` },
+      { "@type": "ListItem", position: 2, name: "Jak pomagam", item: pageUrl },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="Jak pomagam w pisaniu prac — zakres usług i zasady współpracy"
+  description="Sześć form pomocy w pisaniu prac: konsultacje, plan pracy, opracowania wzorcowe, redakcja, kwerenda literatury, przygotowanie do obrony. I cztery rzeczy, których nie robię."
+  canonicalUrl={pageUrl}
+  jsonLd={jsonLd}
+>
+  <Header />
+
+  <main id="main">
+    <section class="relative overflow-hidden border-b border-[var(--color-border)]">
+      <BackgroundDecor variant="mesh" intensity="subtle" />
+      <div class="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+        <nav aria-label="Okruszki" class="text-sm text-[var(--color-text-faint)]">
+          <a href="/" class="text-[var(--color-text-muted)] no-underline hover:text-[var(--color-text)]">Strona główna</a>
+          <span aria-hidden="true" class="mx-2">/</span>
+          <span class="text-[var(--color-text)]">Jak pomagam</span>
+        </nav>
+        <div class="mt-8 max-w-3xl">
+          <IconBadge icon="nib" label="Zasady współpracy" tone="accent" />
+          <h1 class="mt-5 font-serif text-[length:var(--text-fs-h1)] font-medium leading-[1.1] tracking-tight">
+            Jak dokładnie pomagam — i czego ode mnie nie dostaniesz
+          </h1>
+          <p class="mt-6 max-w-[60ch] text-lg leading-relaxed text-[var(--color-text-muted)]">
+            Wolę, żebyś przed pierwszym mailem wiedział, na czym stoisz. Poniżej
+            pełen zakres pomocy — od godzinnej konsultacji po prowadzenie przez
+            całą pracę — oraz lista rzeczy, których świadomie nie robię.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="border-b border-[var(--color-border)] bg-[var(--color-bg-elevated)]">
+      <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+        <div class="max-w-2xl">
+          <IconBadge icon="draft-check" label="Zakres usług" tone="muted" />
+          <h2 class="mt-4 font-serif text-[length:var(--text-fs-h2)] font-medium leading-tight tracking-tight">
+            Sześć form pomocy — składasz z nich tyle, ile potrzebujesz
+          </h2>
+        </div>
+
+        <div class="mt-12 grid gap-4 md:grid-cols-2">
+          {services.map((s) => (
+            <div
+              class:list={[
+                "rounded-xl border bg-[var(--color-bg)] p-6 md:p-7",
+                s.highlight
+                  ? "card-accent-top border-[var(--color-accent)]/40"
+                  : "border-[var(--color-border)]",
+              ]}
+            >
+              <div class="flex items-center gap-3">
+                <IconBadge icon={s.icon as any} tone="accent" size="md" />
+                <h3 class="font-sans text-lg font-semibold">{s.title}</h3>
+              </div>
+              <p class="mt-3 font-medium text-[var(--color-text)]">{s.lead}</p>
+              <p class="mt-2 text-[0.9375rem] leading-relaxed text-[var(--color-text-muted)]">{s.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="relative overflow-hidden border-b border-[var(--color-border)]">
+      <BackgroundDecor variant="dots" intensity="subtle" />
+      <div class="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+        <div class="max-w-2xl">
+          <IconBadge icon="scale" label="Granice" tone="accent" />
+          <h2 class="mt-4 font-serif text-[length:var(--text-fs-h2)] font-medium leading-tight tracking-tight">
+            Czego nie robię — cztery twarde zasady
+          </h2>
+          <p class="mt-4 text-lg text-[var(--color-text-muted)]">
+            Ta branża ma fatalną reputację nie bez powodu. Te zasady to moja
+            odpowiedź — i powód, dla którego strona o
+            <a href="/legalnosc/" class="font-medium">legalności</a> wisi w
+            głównym menu, a nie w stopce drobnym drukiem.
+          </p>
+        </div>
+
+        <div class="mt-12 grid gap-4 md:grid-cols-2">
+          {notDoing.map((n, i) => (
+            <div class="flex gap-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-6">
+              <span class="font-serif text-2xl font-semibold text-[var(--color-accent-secondary)]/60">{i + 1}</span>
+              <div>
+                <h3 class="font-sans text-base font-semibold">{n.title}</h3>
+                <p class="mt-2 text-[0.9375rem] leading-relaxed text-[var(--color-text-muted)]">{n.text}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div class="mt-12 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-6 md:p-8">
+          <div class="flex items-start gap-4">
+            <IconBadge icon="clock" tone="accent" size="lg" />
+            <div>
+              <h3 class="font-sans text-lg font-semibold">Płatność i poprawki — bez drobnego druku</h3>
+              <p class="mt-2 max-w-[70ch] text-[0.9375rem] leading-relaxed text-[var(--color-text-muted)]">
+                Współpracę dzielimy na etapy z harmonogramem ustalonym przy wycenie.
+                Za każdy etap płacisz po jego otrzymaniu i akceptacji — nie ma
+                przedpłat na całość. Każdy etap ma dwie tury poprawek w cenie;
+                poprawki wykraczające poza ustalone wytyczne wyceniam osobno, ale
+                zawsze przed ich wykonaniem, nie po.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <CtaSection
+      title="Masz temat? To wystarczy na start"
+      text="Napisz, czego potrzebujesz — od godzinnej konsultacji po prowadzenie przez całą pracę. W 24 godziny dostaniesz wycenę i proponowany plan."
+    />
+  </main>
+
+  <Footer />
+</BaseLayout>

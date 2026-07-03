@@ -1,0 +1,38 @@
+---
+// Logo pisanie-prac.pl — stalówka (nib) w kwadracie z gradientem
+// indygo → bursztyn + wordmark w serif. Concept: "gabinet dobrego promotora".
+
+import { siteConfig } from "../config/site";
+import Icon from "./Icon.astro";
+
+interface Props {
+  variant?: "default" | "compact";
+  href?: string;
+}
+
+const { variant = "default", href = "/" } = Astro.props;
+---
+
+<a
+  href={href}
+  class="group inline-flex items-center gap-2.5 no-underline transition-opacity hover:opacity-90"
+  aria-label={`${siteConfig.name} — strona główna`}
+>
+  <span
+    class="relative inline-flex h-9 w-9 items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-[#4338ca] via-[#5b46c2] to-[#b45309] text-white shadow-sm ring-1 ring-inset ring-white/15"
+    aria-hidden="true"
+  >
+    <Icon name="nib" class="h-5 w-5" stroke={2} />
+  </span>
+
+  {variant === "default" && (
+    <span class="flex flex-col leading-tight">
+      <span class="font-serif text-[1.05rem] font-semibold tracking-tight text-[var(--color-text)]">
+        pisanie&#8209;prac.pl
+      </span>
+      <span class="text-[0.6875rem] font-medium uppercase tracking-[0.12em] text-[var(--color-text-faint)]">
+        pomoc w pisaniu
+      </span>
+    </span>
+  )}
+</a>

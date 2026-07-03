@@ -1,0 +1,128 @@
+---
+import WorkTypeLayout from "../../layouts/WorkTypeLayout.astro";
+import IconBadge from "../../components/IconBadge.astro";
+import Icon from "../../components/Icon.astro";
+import { workTypes } from "../../data/workTypes";
+
+const workType = workTypes.find((t) => t.slug === "referat")!;
+
+const scope = [
+  {
+    icon: "chat-guidance",
+    title: "Struktura pod wystąpienie",
+    text: "Tekst do wygłoszenia rządzi się innymi prawami niż tekst do czytania: krótsze zdania, wyraźne przejścia, powtórzenia w dobrych miejscach.",
+    accent: "highlight",
+  },
+  {
+    icon: "book-open",
+    title: "Wzorcowy referat",
+    text: "Opracowanie wzorcowe na Twój temat — z zaznaczonymi punktami, w których słuchacze gubią wątek, jeśli mówca ich nie poprowadzi.",
+  },
+  {
+    icon: "layers-chapters",
+    title: "Prezentacja do referatu",
+    text: "Slajdy, które wspierają mówienie, zamiast dublować tekst. Zasada: obraz i hasło na slajdzie, pełne zdania w Twoich ustach.",
+  },
+  {
+    icon: "magnifier-text",
+    title: "Źródła i przypisy",
+    text: "Referat też wymaga podstawy źródłowej — pomagam ją zebrać i pokazać w bibliografii tak, jak wymaga prowadzący.",
+  },
+  {
+    icon: "clock",
+    title: "Timing wystąpienia",
+    text: "15 minut to około 1800–2000 słów mówionych. Przycinam tekst do limitu czasu, zanim zetnie Cię prowadzący w połowie wniosków.",
+  },
+  {
+    icon: "draft-check",
+    title: "Wersja pisemna do oddania",
+    text: "Jeśli prowadzący wymaga też wersji pisemnej — dostosowuję tekst mówiony do formy papierowej, z przypisami i poprawną strukturą.",
+  },
+] as const;
+
+const faq = [
+  {
+    q: "Referat i prezentacja to u mnie jedno zadanie. Robisz oba?",
+    a: "Tak, i najlepiej robić je razem — wtedy slajdy wynikają z tekstu, a nie żyją obok niego. Dostajesz tekst do wygłoszenia z zaznaczonymi momentami zmiany slajdu oraz samą prezentację (struktura i treść slajdów; oprawę graficzną w PowerPoincie/Canvie kończysz sam albo według mojej makiety).",
+  },
+  {
+    q: "Boję się mówić przed grupą. Tekst mi w tym pomoże?",
+    a: "Dobrze skonstruowany tekst to połowa spokoju — wiesz, co powiesz w następnym zdaniu, więc głowa nie szuka słów w panice. Dokładam do tego wersję z zaznaczonymi pauzami i akcentami oraz jedną radę wartą więcej niż kurs wystąpień: pierwszą minutę umiej na pamięć. Dalej samo idzie.",
+  },
+  {
+    q: "Na kiedy najpóźniej się odezwać przed terminem wystąpienia?",
+    a: "Tydzień wcześniej to komfort: czas na opracowanie, Twoją lekturę i jedną rundę poprawek. Trzy dni — do zrobienia przy krótszym referacie. Dzień przed — odmówię, bo dostałbyś tekst, którego nie zdążysz oswoić, a czytanie z kartki obcego tekstu słychać od trzeciego zdania.",
+  },
+  {
+    q: "Prowadzący ocenia też dyskusję po referacie. Da się przygotować?",
+    a: "Tak — do wzorcowego referatu dołączam listę pytań, które najpewniej padną z sali albo od prowadzącego, z krótkimi odpowiedziami. Skoro znasz tekst i wiesz, skąd pochodzą tezy, dyskusja przestaje być loterią.",
+  },
+];
+---
+
+<WorkTypeLayout
+  workType={workType}
+  title="Pomoc w przygotowaniu referatu i prezentacji na zajęcia"
+  description="Pomoc przy referacie: tekst pod wystąpienie, prezentacja, timing, źródła, przygotowanie do dyskusji. Wzorcowe opracowania. Wycena w 24 h."
+  heading="Pomoc w przygotowaniu referatu i prezentacji"
+  lead="Referat oceniają dwa razy: raz za treść, drugi raz za to, jak go podasz. Pomagam z oboma — tekst budowany pod mówienie, slajdy wspierające wystąpienie i przygotowanie do pytań, które padną po nim."
+  scope={scope}
+  faq={faq}
+>
+  <section class="border-b border-[var(--color-border)]">
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+      <div class="max-w-2xl">
+        <IconBadge icon="chat-guidance" label="Tekst mówiony" tone="accent" />
+        <h2 class="mt-4 font-serif text-[length:var(--text-fs-h2)] font-medium leading-tight tracking-tight">
+          Dlaczego referat czytany z kartki usypia — i jak tego uniknąć
+        </h2>
+        <p class="mt-4 max-w-[62ch] leading-relaxed text-[var(--color-text-muted)]">
+          Większość referatów powstaje jak praca pisemna: długie zdania
+          wielokrotnie złożone, wtrącenia, terminy bez wyjaśnień. Na papierze to
+          uchodzi. Wygłoszone — traci słuchaczy w drugiej minucie, bo ucho nie
+          cofa się do początku zdania tak, jak oko. Tekst pod wystąpienie
+          konstruuję inaczej:
+        </p>
+      </div>
+
+      <div class="mt-10 grid gap-4 md:grid-cols-3">
+        <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-6">
+          <IconBadge icon="quote-marks" tone="accent" size="sm" />
+          <h3 class="mt-3 font-sans text-base font-semibold">Zdania do powiedzenia</h3>
+          <p class="mt-2 text-[0.9375rem] leading-relaxed text-[var(--color-text-muted)]">
+            Krótkie, z jedną myślą. Trudny termin dostaje od razu wyjaśnienie
+            albo przykład. Jeśli zdania nie da się powiedzieć na jednym oddechu —
+            jest za długie.
+          </p>
+        </div>
+        <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-6">
+          <IconBadge icon="compass-plan" tone="accent" size="sm" />
+          <h3 class="mt-3 font-sans text-base font-semibold">Drogowskazy dla słuchacza</h3>
+          <p class="mt-2 text-[0.9375rem] leading-relaxed text-[var(--color-text-muted)]">
+            „Trzy przyczyny; pierwsza z nich…” — słuchacz zawsze wie, gdzie jest
+            i ile zostało. To nie infantylizacja, to warsztat: tak mówią dobrzy
+            wykładowcy.
+          </p>
+        </div>
+        <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-6">
+          <IconBadge icon="clock" tone="accent" size="sm" />
+          <h3 class="mt-3 font-sans text-base font-semibold">Rytm i czas</h3>
+          <p class="mt-2 text-[0.9375rem] leading-relaxed text-[var(--color-text-muted)]">
+            Tekst mierzony na głośne czytanie, nie na strony. Kulminacja przed
+            końcem, wnioski krótkie — bo ostatnie 30 sekund to jedyne, co część
+            sali zapamięta.
+          </p>
+        </div>
+      </div>
+
+      <p class="mt-8 flex items-start gap-2.5 text-[0.9375rem] text-[var(--color-text-muted)]">
+        <Icon name="arrow-right" class="mt-1 h-4 w-4 shrink-0 text-[var(--color-accent)]" />
+        <span>
+          Referat pisemny do oddania bez wygłaszania? To bliżej
+          <a href="/praca-zaliczeniowa/" class="font-medium">pracy zaliczeniowej</a> —
+          zobacz, jak pomagam przy formach pisemnych.
+        </span>
+      </p>
+    </div>
+  </section>
+</WorkTypeLayout>

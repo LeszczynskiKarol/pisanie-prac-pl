@@ -1,0 +1,41 @@
+---
+// CtaSection — dolny CTA na podstronach, kieruje do /kontakt/.
+import Icon from "./Icon.astro";
+import BackgroundDecor from "./BackgroundDecor.astro";
+
+interface Props {
+  title?: string;
+  text?: string;
+}
+
+const {
+  title = "Wyślij temat i wytyczne — wycenę dostaniesz w 24 godziny",
+  text = "Do wiadomości możesz dołączyć wytyczne promotora, konspekt albo fragment, który już masz. Wycena i pierwsza konsultacja nic nie kosztują.",
+} = Astro.props;
+---
+
+<section class="relative overflow-hidden border-t border-[var(--color-border)] bg-[var(--color-bg-subtle)]">
+  <div class="relative mx-auto max-w-3xl px-4 py-16 text-center sm:px-6 lg:py-20">
+    <h2 class="font-serif text-[length:var(--text-fs-h2)] font-medium leading-tight tracking-tight">
+      {title}
+    </h2>
+    <p class="mx-auto mt-4 max-w-[58ch] text-lg text-[var(--color-text-muted)]">
+      {text}
+    </p>
+    <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+      <a
+        href="/kontakt/"
+        class="inline-flex items-center gap-2 rounded-md bg-[var(--color-accent)] px-6 py-3 text-base font-medium text-[var(--color-accent-fg)] no-underline transition-colors hover:bg-[var(--color-accent-hover)]"
+      >
+        Bezpłatna wycena w 24 h
+        <Icon name="arrow-right" class="h-4 w-4" />
+      </a>
+      <a
+        href="/jak-pomagam/"
+        class="inline-flex items-center gap-2 rounded-md border border-[var(--color-border)] bg-[var(--color-bg-elevated)] px-6 py-3 text-base font-medium text-[var(--color-text)] no-underline transition-colors hover:bg-[var(--color-bg)]"
+      >
+        Najpierw zobacz, jak pracuję
+      </a>
+    </div>
+  </div>
+</section>

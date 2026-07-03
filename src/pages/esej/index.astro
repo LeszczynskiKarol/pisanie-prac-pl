@@ -1,0 +1,134 @@
+---
+import WorkTypeLayout from "../../layouts/WorkTypeLayout.astro";
+import IconBadge from "../../components/IconBadge.astro";
+import Icon from "../../components/Icon.astro";
+import { workTypes } from "../../data/workTypes";
+
+const workType = workTypes.find((t) => t.slug === "esej")!;
+
+const scope = [
+  {
+    icon: "quote-marks",
+    title: "Teza, która coś twierdzi",
+    text: "„W eseju omówię zagadnienie X” to nie teza. Pomagam sformułować zdanie, z którym da się polemizować — bo od niego zależy cała reszta.",
+    accent: "highlight",
+  },
+  {
+    icon: "compass-plan",
+    title: "Architektura argumentu",
+    text: "Kolejność argumentów, kontrargument i odpowiedź na niego, proporcje. Esej ma prowadzić czytelnika, nie wyliczać punkty.",
+  },
+  {
+    icon: "book-open",
+    title: "Wzorcowe eseje",
+    text: "Esej wzorcowy na Twój temat — do przeczytania, rozebrania na części i nauczenia się ruchu, którym tekst przechodzi od tezy do wniosku.",
+  },
+  {
+    icon: "magnifier-text",
+    title: "Praca ze źródłami",
+    text: "Jak cytować w eseju, żeby źródła wspierały Twój głos, a nie go zagłuszały. Mniej przypisów niż w referacie — ale każdy na swoim miejscu.",
+  },
+  {
+    icon: "draft-check",
+    title: "Redakcja stylu",
+    text: "Esej znosi styl osobisty, ale nie niechlujny. Wygładzam rytm zdań i usuwam ozdobniki, które udają głębię.",
+  },
+  {
+    icon: "chat-guidance",
+    title: "Rozmowa o temacie",
+    text: "Czasem najwięcej daje godzina rozmowy: co naprawdę myślisz o temacie? Z tego zwykle wychodzi lepsza teza niż z trzech godzin czytania.",
+  },
+] as const;
+
+const faq = [
+  {
+    q: "Czym esej akademicki różni się od wypracowania?",
+    a: "Wypracowanie odtwarza wiedzę, esej broni stanowiska. W eseju masz obowiązek mieć zdanie: postawić tezę, uargumentować ją, zmierzyć się z kontrargumentem. Dlatego prowadzący tak często piszą w uwagach „brak tezy” albo „praca odtwórcza” — tekst streszcza lektury zamiast ich używać.",
+  },
+  {
+    q: "Ile źródeł powinien mieć esej?",
+    a: "Mniej, niż myślisz — zwykle 4–8 dobrze użytych pozycji na esej 5–10 stron. Esej nie jest przeglądem literatury; źródła są w nim amunicją dla argumentów, nie dowodem oczytania. Jedno źródło przemyślane i skonfrontowane z tezą robi więcej niż dziesięć przywołanych z grzeczności.",
+  },
+  {
+    q: "Na filozofii wymagają eseju „z własnym stanowiskiem”, a ja go nie mam. Pomożesz?",
+    a: "Tak — to częstszy problem niż brak warsztatu. W rozmowie przechodzimy przez temat pytaniami: co Cię w nim uwiera, z czym się nie zgadzasz w lekturach, gdzie autorzy się mylą. Stanowisko prawie zawsze jest, tylko nieuświadomione. Potem zostaje je precyzyjnie zapisać — i to już kwestia techniki.",
+  },
+  {
+    q: "Esej po angielsku (IELTS, Erasmus, wykład anglojęzyczny) — pomagasz?",
+    a: "Przy esejach akademickich po angielsku tak: struktura anglosaskiego essay (introduction z thesis statement, body paragraphs z topic sentences, conclusion) jest sformalizowana bardziej niż polska i łatwo ją opanować na wzorcach. Przy esejach egzaminacyjnych typu IELTS pomagam ze strukturą i strategią, nie oferuję pisania za kogoś na egzaminie — z oczywistych względów.",
+  },
+];
+---
+
+<WorkTypeLayout
+  workType={workType}
+  title="Pomoc w pisaniu eseju akademickiego — teza i argumentacja"
+  description="Pomoc w pisaniu eseju: teza, architektura argumentacji, praca ze źródłami, wzorcowe eseje jako inspiracja, redakcja stylu. Wycena w 24 h."
+  heading="Pomoc w pisaniu eseju akademickiego"
+  lead="Esej to najkrótsza forma, na której najłatwiej polec — bo nie da się go zapełnić streszczeniami. Trzeba mieć tezę, argumenty i odwagę napisać, co się myśli. Pomagam znaleźć wszystkie trzy."
+  scope={scope}
+  faq={faq}
+>
+  <section class="border-b border-[var(--color-border)]">
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+      <div class="grid gap-12 lg:grid-cols-2 lg:items-start">
+        <div>
+          <IconBadge icon="quote-marks" label="Warsztat" tone="accent" />
+          <h2 class="mt-4 font-serif text-[length:var(--text-fs-h2)] font-medium leading-tight tracking-tight">
+            Anatomia eseju, który dostaje piątki
+          </h2>
+          <p class="mt-4 max-w-[60ch] leading-relaxed text-[var(--color-text-muted)]">
+            Dobre eseje są różne, ale słabe są słabe tak samo: brak tezy, argumenty
+            luzem, zakończenie przepisujące wstęp. Wzorcowy esej, który ode mnie
+            dostaniesz, pokazuje na Twoim temacie, jak działa forma:
+          </p>
+          <ul class="mt-6 space-y-3">
+            {[
+              ["Otwarcie", "nie „od zarania dziejów”, tylko wejście w problem: przykład, napięcie, sporne zdanie"],
+              ["Teza", "jedno zdanie, które można zaatakować — i które zapowiada, czego bronisz"],
+              ["Argumenty", "każdy akapit robi jedną rzecz i zaczyna się od zdania, które ją nazywa"],
+              ["Kontrargument", "najsilniejszy zarzut przeciw Twojej tezie — rozbrojony, nie przemilczany"],
+              ["Zakończenie", "co z tej tezy wynika dalej; ostatnie zdanie ma zostać w głowie"],
+            ].map(([name, desc]) => (
+              <li class="flex items-start gap-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-4">
+                <Icon name="check" class="mt-1 h-4 w-4 shrink-0 text-[var(--color-accent)]" />
+                <span class="text-[0.9375rem]">
+                  <span class="font-semibold text-[var(--color-text)]">{name}</span>
+                  <span class="text-[var(--color-text-muted)]"> — {desc}</span>
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <IconBadge icon="book-open" label="Gdzie esej obowiązuje" tone="muted" />
+          <h2 class="mt-4 font-serif text-[length:var(--text-fs-h2)] font-medium leading-tight tracking-tight">
+            Kierunki, na których esej to chleb powszedni
+          </h2>
+          <p class="mt-4 max-w-[60ch] leading-relaxed text-[var(--color-text-muted)]">
+            Filozofia, socjologia, kulturoznawstwo, politologia, prawo (glosy i
+            eseje problemowe), filologie, historia. Na każdym z tych kierunków
+            konwencja jest nieco inna — esej z filozofii wybaczy dygresję, esej
+            prawniczy nie wybaczy nieścisłości pojęciowej.
+          </p>
+          <p class="mt-4 max-w-[60ch] leading-relaxed text-[var(--color-text-muted)]">
+            Dlatego zanim cokolwiek powstanie, pytam o kierunek, przedmiot i
+            prowadzącego. Ten sam temat — powiedzmy „wolność słowa w internecie” —
+            na socjologii potrzebuje danych i teorii, na filozofii pojęciowej
+            precyzji, a na prawie orzecznictwa. Wzorzec dopasowuję do konwencji,
+            w której będziesz oceniany.
+          </p>
+          <p class="mt-6 flex items-start gap-2.5 text-[0.9375rem] text-[var(--color-text-muted)]">
+            <Icon name="arrow-right" class="mt-1 h-4 w-4 shrink-0 text-[var(--color-accent)]" />
+            <span>
+              Esej ma być wygłoszony, nie oddany?
+              <a href="/referat/" class="font-medium">Pomoc przy referacie</a> to
+              inna konstrukcja — pisana pod mówienie.
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</WorkTypeLayout>

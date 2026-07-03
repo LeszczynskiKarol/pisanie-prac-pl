@@ -1,0 +1,149 @@
+---
+import WorkTypeLayout from "../../layouts/WorkTypeLayout.astro";
+import IconBadge from "../../components/IconBadge.astro";
+import Icon from "../../components/Icon.astro";
+import { workTypes } from "../../data/workTypes";
+
+const workType = workTypes.find((t) => t.slug === "praca-licencjacka")!;
+
+const scope = [
+  {
+    icon: "compass-plan",
+    title: "Temat i konspekt",
+    text: "Pomagam zawęzić temat do czegoś, co da się zbadać w 40–60 stronach, i rozpisać konspekt, który promotor zaakceptuje za pierwszym razem.",
+  },
+  {
+    icon: "magnifier-text",
+    title: "Dobór literatury",
+    text: "Wskazuję konkretne monografie, artykuły i bazy (BazEkon, CEJSH, Google Scholar), z których warto korzystać — i te, których lepiej unikać.",
+  },
+  {
+    icon: "book-open",
+    title: "Opracowanie wzorcowe",
+    text: "Rozdział albo całość napisana od zera pod Twój temat — wzór struktury, stylu i cytowania, na którym budujesz własny tekst.",
+    accent: "highlight",
+  },
+  {
+    icon: "layers-chapters",
+    title: "Część badawcza",
+    text: "Ankieta, wywiad, analiza dokumentów — pomagam wybrać metodę na miarę licencjatu i opisać wyniki tak, żeby coś z nich wynikało.",
+  },
+  {
+    icon: "draft-check",
+    title: "Redakcja Twojego tekstu",
+    text: "Porządkuję język, przypisy i bibliografię według wymogów Twojej uczelni. Zdanie po zdaniu, z komentarzem, co poprawiłem i czemu.",
+  },
+  {
+    icon: "grad-cap",
+    title: "Przygotowanie do obrony",
+    text: "Lista prawdopodobnych pytań komisji do Twojego tematu plus próba odpowiedzi. Egzamin licencjacki bez niespodzianek.",
+  },
+] as const;
+
+const faq = [
+  {
+    q: "Ile stron powinna mieć praca licencjacka?",
+    a: "Standard w Polsce to 40–60 stron, choć regulaminy bywają różne — spotkałem wymogi od 30 do 80 stron. Ważniejsza od liczby stron jest proporcja: część teoretyczna nie powinna przygniatać badawczej. Jeśli promotor nie podał widełek, celuj w 50 stron i trzy rozdziały.",
+  },
+  {
+    q: "Zostały mi trzy tygodnie do oddania. Da się coś zrobić?",
+    a: "Zależy od punktu startu. Jeśli masz zaakceptowany konspekt i zebraną literaturę — trzy tygodnie na wsparcie przy pisaniu to realny, choć intensywny termin. Jeśli zaczynasz od zera, powiem Ci to wprost przy wycenie, zamiast brać zlecenie, którego nie da się dowieźć porządnie.",
+  },
+  {
+    q: "Promotor odrzucił mi już dwa konspekty. Pomożesz?",
+    a: "To jedna z częstszych spraw, z jakimi dostaję maile. Zwykle problem leży w temacie zbyt szerokim („Marketing w internecie”) albo braku pytania badawczego. Przysyłasz odrzucone wersje i uwagi promotora — na ich podstawie buduję konspekt, który odpowiada na to, czego promotor faktycznie oczekuje.",
+  },
+  {
+    q: "Czy opracowanie wzorcowe mogę oddać jako swoją pracę?",
+    a: "Nie — i mówię to wprost na każdej stronie tego serwisu. Opracowanie służy jako wzór i materiał do nauki: pokazuje, jak poprowadzić wywód, cytować i opisać badanie na Twoim konkretnym temacie. Pracę piszesz i podpisujesz samodzielnie, bo oświadczenie o samodzielności składasz Ty. Szczegóły na stronie o legalności.",
+  },
+];
+---
+
+<WorkTypeLayout
+  workType={workType}
+  title="Pomoc w pisaniu pracy licencjackiej — plan, badania, redakcja"
+  description="Pomoc w pisaniu pracy licencjackiej: konspekt, dobór literatury, część badawcza, opracowania wzorcowe jako inspiracja, redakcja. Wycena w 24 h."
+  heading="Pomoc w pisaniu pracy licencjackiej"
+  lead="Pierwsza duża praca na studiach potrafi przerosnąć — nie dlatego, że brakuje Ci wiedzy, tylko dlatego, że nikt wcześniej nie pokazał Ci, jak się takie rzeczy pisze. Dokładnie to robię: pokazuję, prowadzę i poprawiam, dopóki praca nie będzie gotowa do obrony."
+  scope={scope}
+  faq={faq}
+>
+  <section class="border-b border-[var(--color-border)]">
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+      <div class="grid gap-12 lg:grid-cols-2">
+        <div>
+          <IconBadge icon="layers-chapters" label="Struktura" tone="muted" />
+          <h2 class="mt-4 font-serif text-[length:var(--text-fs-h2)] font-medium leading-tight tracking-tight">
+            Jak zwykle wygląda praca licencjacka
+          </h2>
+          <p class="mt-4 max-w-[60ch] leading-relaxed text-[var(--color-text-muted)]">
+            Większość prac licencjackich w Polsce trzyma się podobnego schematu.
+            Znajomość tego schematu to połowa sukcesu — druga połowa to
+            wypełnienie go treścią, która trzyma się tematu.
+          </p>
+          <ol class="mt-6 space-y-3">
+            {[
+              ["Wstęp", "cel pracy, pytanie badawcze, uzasadnienie tematu — pisany na końcu, choć stoi na początku"],
+              ["Rozdział teoretyczny", "przegląd literatury i pojęć; tu najłatwiej o lanie wody, więc pilnuję, żeby każdy podrozdział pracował na temat"],
+              ["Rozdział metodologiczny", "co badasz, jak i dlaczego właśnie tak — u licencjatów zwykle ankieta, wywiad albo analiza przypadku"],
+              ["Rozdział badawczy", "wyniki i ich interpretacja; sama tabelka z procentami to nie analiza"],
+              ["Zakończenie", "odpowiedź na pytanie ze wstępu + wnioski; komisje czytają wstęp i zakończenie najuważniej"],
+            ].map(([name, desc], i) => (
+              <li class="flex gap-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-4">
+                <span class="font-serif text-xl font-semibold text-[var(--color-accent-secondary)]/60">{i + 1}</span>
+                <div>
+                  <span class="font-sans font-semibold text-[var(--color-text)]">{name}</span>
+                  <span class="text-[0.9375rem] text-[var(--color-text-muted)]"> — {desc}</span>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        <div>
+          <IconBadge icon="chat-guidance" label="Z czym przychodzą licencjaci" tone="muted" />
+          <h2 class="mt-4 font-serif text-[length:var(--text-fs-h2)] font-medium leading-tight tracking-tight">
+            Trzy sytuacje, które znam na pamięć
+          </h2>
+          <div class="mt-6 space-y-4">
+            <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-5">
+              <h3 class="font-sans text-base font-semibold">„Mam temat, nie wiem od czego zacząć”</h3>
+              <p class="mt-2 text-[0.9375rem] leading-relaxed text-[var(--color-text-muted)]">
+                Zaczynamy od konspektu i listy literatury. Po pierwszej konsultacji
+                wiesz, co czytać, w jakiej kolejności pisać i jak wygląda droga do
+                oddania — z datami, nie „jakoś do czerwca”.
+              </p>
+            </div>
+            <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-5">
+              <h3 class="font-sans text-base font-semibold">„Utknąłem na metodologii”</h3>
+              <p class="mt-2 text-[0.9375rem] leading-relaxed text-[var(--color-text-muted)]">
+                Klasyka. Teoria napisana, a rozdział metodologiczny straszy pustą
+                kartką. Dostajesz ode mnie wzorcowy rozdział pod Twoje badanie:
+                jak uzasadnić metodę, opisać próbę i narzędzie. Na tym wzorze
+                piszesz swój.
+              </p>
+            </div>
+            <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-5">
+              <h3 class="font-sans text-base font-semibold">„Praca napisana, promotor kręci nosem”</h3>
+              <p class="mt-2 text-[0.9375rem] leading-relaxed text-[var(--color-text-muted)]">
+                Robię redakcję z komentarzem: gdzie wywód się rwie, które akapity
+                dublują treść, co poprawić w przypisach. Dostajesz tekst z
+                naniesionymi zmianami i wyjaśnieniem każdej z nich — więc przy
+                następnej pracy zrobisz to sam.
+              </p>
+            </div>
+          </div>
+          <p class="mt-6 flex items-start gap-2.5 text-[0.9375rem] text-[var(--color-text-muted)]">
+            <Icon name="arrow-right" class="mt-1 h-4 w-4 shrink-0 text-[var(--color-accent)]" />
+            <span>
+              Piszesz pracę magisterską? Zobacz też
+              <a href="/praca-magisterska/" class="font-medium">pomoc przy magisterce</a> —
+              różnice są większe, niż się wydaje.
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</WorkTypeLayout>

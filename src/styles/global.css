@@ -1,0 +1,229 @@
+@import "tailwindcss";
+
+/* Tailwind 4 — class-based dark mode (no .dark on html by media query) */
+@variant dark (&:where(.dark, .dark *));
+
+/* ──────────────────────────────────────────────────
+   Design tokens — override these per-project from
+   design.md. Light theme first, dark theme below.
+   ────────────────────────────────────────────────── */
+@theme {
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+
+  /* Type scale (1.333 — perfect fourth, editorial) */
+  --text-fs-display: clamp(2.75rem, 1.5rem + 5vw, 5rem);
+  --text-fs-h1: clamp(2.25rem, 1.4rem + 3.5vw, 3.75rem);
+  --text-fs-h2: clamp(1.75rem, 1.2rem + 2vw, 2.625rem);
+  --text-fs-h3: clamp(1.375rem, 1.1rem + 1vw, 1.75rem);
+  --text-fs-body: clamp(1rem, 0.95rem + 0.15vw, 1.0625rem);
+
+  /* Light theme — ciepły "papier" + indygo/bursztyn (design.md) */
+  --color-bg: #faf9f6;
+  --color-bg-elevated: #ffffff;
+  --color-bg-subtle: #f1efe9;
+  --color-text: #1c1b22;
+  --color-text-muted: #57534e;
+  --color-text-faint: #a19c94;
+  --color-border: #e5e2da;
+  --color-accent: #4338ca;
+  --color-accent-hover: #3730a3;
+  --color-accent-fg: #ffffff;
+  --color-accent-secondary: #b45309;
+}
+
+/* Dark theme overrides — granatowy atrament, jaśniejsze indygo */
+html.dark {
+  --color-bg: #0e0d13;
+  --color-bg-elevated: #1a1925;
+  --color-bg-subtle: #232131;
+  --color-text: #f0eee9;
+  --color-text-muted: #a8a29e;
+  --color-text-faint: #6f6a72;
+  --color-border: #2c2a3a;
+  --color-accent: #818cf8;
+  --color-accent-hover: #a5b4fc;
+  --color-accent-fg: #14122b;
+  --color-accent-secondary: #d97706;
+}
+
+/* ──────────────────────────────────────────────────
+   Base — KRYTYCZNE: musi być w @layer base.
+   W Tailwind 4 reguły POZA warstwą biją WSZYSTKIE utility
+   (unlayered > @layer). Jeśli `a { color }` jest poza warstwą,
+   nadpisuje `text-[var(--color-accent-fg)]` na każdym <a> —
+   więc przyciski-linki (<a class="bg-accent text-accent-fg">)
+   dostają tekst w kolorze akcentu = IDENTYCZNYM z tłem.
+   To był nawracający bug na 4 stronach. NIE wyjmuj tego z @layer.
+   ────────────────────────────────────────────────── */
+@layer base {
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-fs-body);
+  line-height: 1.7;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  letter-spacing: -0.011em;
+  line-height: 1.2;
+  color: var(--color-text);
+}
+
+h1 { font-size: var(--text-fs-h1); }
+h2 { font-size: var(--text-fs-h2); }
+h3 { font-size: var(--text-fs-h3); }
+
+p {
+  max-width: 65ch;
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: opacity 200ms, color 200ms;
+}
+a:hover { color: var(--color-accent-hover); }
+} /* end @layer base */
+
+/* Underline TYLKO w treści prose / artykułach — nie w nav, kartach, buttonach. */
+.prose a, article a, [data-prose] a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Skip link */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  background: var(--color-accent);
+  color: var(--color-accent-fg);
+  padding: 0.75rem 1.25rem;
+  z-index: 100;
+  text-decoration: none;
+}
+.skip-link:focus { top: 0; }
+
+/* ──────────────────────────────────────────────────
+   Scroll-in animations (IntersectionObserver triggered)
+   ────────────────────────────────────────────────── */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 600ms cubic-bezier(0.4, 0, 0.2, 1),
+              transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity, transform;
+}
+.animate-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Prevent FOUC for theme — hide nothing, but allows clean no-js fallback */
+html.no-js .needs-js { display: none; }
+
+/* ──────────────────────────────────────────────────
+   Visual utilities — gradient text, accent borders,
+   subtle decorations. Komponenty <BackgroundDecor>
+   trzymają większe wzory; te są punktowe.
+   ────────────────────────────────────────────────── */
+
+/* Akcent gradientowy w nagłówku — indygo → bursztyn (dwa akcenty marki) */
+.text-gradient-accent {
+  background: linear-gradient(120deg, var(--color-accent) 0%, var(--color-accent-secondary) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Subtelny "shine" pasek pod sekcją */
+.shine-divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--color-accent) 50%,
+    transparent 100%
+  );
+  opacity: 0.35;
+}
+
+/* Highlight border dla wyróżnionych elementów — bez blur poświaty.
+   Karol nie chce blur'a w każdej sekcji (patrz feedback-no-glow-no-underline). */
+.glow-accent {
+  border-color: var(--color-accent);
+}
+
+/* Pasek "code-like" — etykiety techniczne */
+.tech-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+}
+
+/* Pasek u góry karty (akcent) */
+.card-accent-top {
+  position: relative;
+}
+.card-accent-top::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-hover));
+  border-radius: inherit inherit 0 0;
+}
+
+/* Form controls — używaj zamiast surowych Tailwind w formularzach */
+.form-input {
+  display: block;
+  width: 100%;
+  padding: 0.625rem 0.875rem;
+  font-size: 0.9375rem;
+  color: var(--color-text);
+  background-color: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  transition: border-color 150ms, box-shadow 150ms;
+}
+.form-input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 20%, transparent);
+}
+.form-label {
+  display: block;
+  margin-bottom: 0.375rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-text);
+}

@@ -1,0 +1,45 @@
+---
+// LegalNote — box "zasady współpracy zgodne z prawem" wstawiany na każdej
+// podstronie typu pracy. Rama narracyjna marki: POMOC, nie wyręczanie.
+import Icon from "./Icon.astro";
+
+interface Props {
+  /** np. "pracy licencjackiej" — odmienia zdanie pod typ pracy */
+  workGenitive?: string;
+}
+
+const { workGenitive = "pracy" } = Astro.props;
+---
+
+<aside
+  class="card-accent-top relative rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-6 md:p-8"
+  aria-label="Zasady legalnej współpracy"
+>
+  <div class="flex items-start gap-4">
+    <span
+      class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-[var(--color-accent)]/15 to-[var(--color-accent)]/5 text-[var(--color-accent)] ring-1 ring-inset ring-[var(--color-accent)]/20"
+      aria-hidden="true"
+    >
+      <Icon name="scale" class="h-5 w-5" />
+    </span>
+    <div>
+      <h3 class="font-sans text-lg font-semibold text-[var(--color-text)]">
+        Pomagam pisać — nie piszę za Ciebie
+      </h3>
+      <p class="mt-2 max-w-[62ch] text-[0.9375rem] leading-relaxed text-[var(--color-text-muted)]">
+        Wszystko, co dostaniesz przy {workGenitive} — konsultacje, plan, opracowanie
+        wzorcowe, uwagi redakcyjne — to materiał pomocniczy i poglądowy, jak dobre
+        korepetycje albo przykładowe teksty w podręczniku. Pracę składasz i podpisujesz
+        samodzielnie, a moja pomoc ma sprawić, że będziesz ją rozumieć na tyle dobrze,
+        żeby swobodnie bronić każdego akapitu.
+      </p>
+      <a
+        href="/legalnosc/"
+        class="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-[var(--color-accent)] no-underline hover:text-[var(--color-accent-hover)]"
+      >
+        Dlaczego to jest legalne — szczegóły
+        <Icon name="arrow-right" class="h-4 w-4" />
+      </a>
+    </div>
+  </div>
+</aside>

@@ -1,0 +1,122 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import Icon from "../../components/Icon.astro";
+import IconBadge from "../../components/IconBadge.astro";
+import BackgroundDecor from "../../components/BackgroundDecor.astro";
+import ContactForm from "../../components/ContactForm.astro";
+import { siteConfig } from "../../config/site";
+
+const pageUrl = `${siteConfig.url}/kontakt/`;
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Strona główna", item: `${siteConfig.url}/` },
+      { "@type": "ListItem", position: 2, name: "Kontakt", item: pageUrl },
+    ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    name: "Kontakt i bezpłatna wycena",
+    url: pageUrl,
+  },
+];
+---
+
+<BaseLayout
+  title="Kontakt — bezpłatna wycena pracy w 24 godziny"
+  description="Wyślij temat i wytyczne przez formularz (możesz dołączyć pliki). W ciągu 24 godzin dostaniesz wycenę i plan działania. Wycena bezpłatna i niezobowiązująca."
+  canonicalUrl={pageUrl}
+  jsonLd={jsonLd}
+>
+  <Header />
+
+  <main id="main">
+    <section class="relative overflow-hidden">
+      <BackgroundDecor variant="spotlight" intensity="subtle" />
+      <div class="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+        <nav aria-label="Okruszki" class="text-sm text-[var(--color-text-faint)]">
+          <a href="/" class="text-[var(--color-text-muted)] no-underline hover:text-[var(--color-text)]">Strona główna</a>
+          <span aria-hidden="true" class="mx-2">/</span>
+          <span class="text-[var(--color-text)]">Kontakt</span>
+        </nav>
+
+        <div class="mt-8 grid gap-12 lg:grid-cols-5">
+          <div class="lg:col-span-2">
+            <IconBadge icon="mail" label="Kontakt" tone="accent" />
+            <h1 class="mt-5 font-serif text-[length:var(--text-fs-h1)] font-medium leading-[1.1] tracking-tight">
+              Wyślij temat — wycena w 24 godziny
+            </h1>
+            <p class="mt-6 max-w-[55ch] text-lg leading-relaxed text-[var(--color-text-muted)]">
+              Im więcej szczegółów podasz, tym dokładniejsza będzie wycena.
+              Idealny komplet to: temat, kierunek studiów, termin oddania i
+              wytyczne promotora w załączniku.
+            </p>
+
+            <ul class="mt-8 space-y-4">
+              {[
+                ["clock", "Odpowiadam w ciągu 24 godzin", "także w weekendy — wtedy studenci mają czas pisać"],
+                ["draft-check", "Wycena jest bezpłatna", "i do niczego nie zobowiązuje; zakres potwierdzasz dopiero po niej"],
+                ["shield-check", "Materiały zostają między nami", "wytyczne i fragmenty prac służą wyłącznie do wyceny i realizacji"],
+              ].map(([icon, title, desc]) => (
+                <li class="flex items-start gap-3">
+                  <IconBadge icon={icon as any} tone="accent" size="sm" />
+                  <div>
+                    <p class="font-medium text-[var(--color-text)]">{title}</p>
+                    <p class="text-sm text-[var(--color-text-muted)]">{desc}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+
+            <div class="mt-8 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-5">
+              <p class="text-sm text-[var(--color-text-muted)]">
+                Wolisz zwykłego maila? Pisz na
+                <a href={`mailto:${siteConfig.contact.email}`} class="font-medium">{siteConfig.contact.email}</a>
+                — załączniki mile widziane.
+              </p>
+            </div>
+          </div>
+
+          <div class="lg:col-span-3">
+            <ContactForm
+              messageLabel="Temat pracy i czego potrzebujesz"
+              messagePlaceholder="Np. temat, kierunek studiów, termin oddania i z czym utknąłeś…"
+              attachmentHint="Wytyczne promotora, konspekt, fragment pracy — PDF/DOCX (maks. 10 MB/plik, do 5 plików)"
+              submitLabel="Wyślij i poproś o wycenę"
+              successTitle="Wiadomość wysłana"
+              successText="Wycenę i plan działania dostaniesz w ciągu 24 godzin."
+              rodoText="Wyrażam zgodę na przetwarzanie moich danych w celu odpowiedzi na zapytanie. Szczegóły w polityce prywatności."
+              extraFields={[
+                {
+                  name: "workType",
+                  label: "Typ pracy",
+                  type: "select",
+                  options: [
+                    "Praca licencjacka",
+                    "Praca magisterska",
+                    "Praca inżynierska",
+                    "Praca doktorska",
+                    "Praca zaliczeniowa",
+                    "Esej",
+                    "Referat / prezentacja",
+                    "Artykuł naukowy",
+                    "Inne",
+                  ],
+                },
+                { name: "deadline", label: "Termin oddania", type: "text", placeholder: "np. 15 września 2026" },
+              ]}
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

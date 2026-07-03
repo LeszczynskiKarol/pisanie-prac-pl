@@ -1,0 +1,110 @@
+---
+import WorkTypeLayout from "../../layouts/WorkTypeLayout.astro";
+import IconBadge from "../../components/IconBadge.astro";
+import Icon from "../../components/Icon.astro";
+import { workTypes } from "../../data/workTypes";
+
+const workType = workTypes.find((t) => t.slug === "praca-zaliczeniowa")!;
+
+const scope = [
+  {
+    icon: "draft-check",
+    title: "Rozszyfrowanie wytycznych",
+    text: "„Praca na 10–15 stron o wybranym aspekcie…” — pomagam ustalić, czego prowadzący naprawdę oczekuje, zanim napiszesz nie to.",
+  },
+  {
+    icon: "book-open",
+    title: "Opracowanie wzorcowe",
+    text: "Wzorcowa praca pod Twój temat i wytyczne — zobacz, jak ma wyglądać struktura, argumentacja i przypisy, zanim usiądziesz do własnej.",
+    accent: "highlight",
+  },
+  {
+    icon: "magnifier-text",
+    title: "Źródła na szybko",
+    text: "Krótka, celna lista literatury zamiast trzech wieczorów w Google Scholar. Do prac zaliczeniowych wystarczy kilka dobrych źródeł — ale muszą być dobre.",
+  },
+  {
+    icon: "layers-chapters",
+    title: "Projekty i case study",
+    text: "Analiza przypadku, projekt zaliczeniowy, raport z badania — formy, które wymagają struktury innej niż klasyczny referat.",
+  },
+  {
+    icon: "clock",
+    title: "Krótkie terminy",
+    text: "Zaliczeniówki mają to do siebie, że przypominają o sobie tydzień przed sesją. Przy wycenie dostajesz uczciwą odpowiedź, co jest wykonalne.",
+  },
+  {
+    icon: "draft-check",
+    title: "Korekta przed oddaniem",
+    text: "Masz tekst napisany? Sprawdzam strukturę, język i przypisy — często to wystarczy, żeby z 3+ zrobić 4+.",
+  },
+] as const;
+
+const faq = [
+  {
+    q: "Piszę do Ciebie w środę, praca na poniedziałek. Realne?",
+    a: "Często tak — zaliczeniówki to zwykle 8–20 stron, a nie 60. Odpowiadam na maile codziennie, więc wycenę dostaniesz szybko, razem z uczciwą informacją, czy termin jest wykonalny bez chodzenia na skróty. Jedno zastrzeżenie: „na jutro” nie biorę, bo ucierpiałaby jakość, a to jedyne, czym się tu różnię od generatora tekstu.",
+  },
+  {
+    q: "Czy zaliczeniówki nie są za małe na taką pomoc?",
+    a: "Bywa odwrotnie — to najczęstsze zlecenia. Semestr potrafi skumulować pięć prac zaliczeniowych w dwa tygodnie, każda u innego prowadzącego, z innymi wymaganiami. Pomoc przy dwóch najbardziej wymagających często ratuje całą sesję.",
+  },
+  {
+    q: "Prowadzący nie dał prawie żadnych wytycznych. Co wtedy?",
+    a: "To standard, nie wyjątek. Wtedy pracujemy na konwencji przedmiotu: inne standardy obowiązują na esej z filozofii, inne na case study z zarządzania, inne na raport z laboratorium. Po temacie i nazwie przedmiotu jestem w stanie doradzić bezpieczną strukturę — taką, której żaden prowadzący nie uzna za błędną.",
+  },
+  {
+    q: "Czy pomagasz przy pracach po angielsku?",
+    a: "Przy zaliczeniówkach anglojęzycznych — tak, zarówno przy pisaniu opracowań wzorcowych, jak i korekcie Twojego tekstu. Poziom akademickiego angielskiego w pracach zaliczeniowych jest osiągalny bez native proofreadera; przy dłuższych formach (magisterka po angielsku) uczciwie rozgraniczam, co zrobię sam, a co warto oddać specjaliście.",
+  },
+];
+---
+
+<WorkTypeLayout
+  workType={workType}
+  title="Pomoc w pisaniu prac zaliczeniowych — eseje, projekty, raporty"
+  description="Pomoc w pisaniu prac zaliczeniowych: eseje semestralne, case study, projekty, raporty. Krótkie terminy, opracowania wzorcowe, korekta. Wycena w 24 h."
+  heading="Pomoc w pisaniu prac zaliczeniowych"
+  lead="Krótsza forma, ale identyczny mechanizm stresu: termin za tydzień, wytyczne na pół zdania, a przedmiot — powiedzmy szczerze — nie jest Twoim ulubionym. Pomagam ogarnąć zaliczeniówkę sprawnie i uczciwie, żeby sesja przestała wisieć na jednej pracy."
+  scope={scope}
+  faq={faq}
+>
+  <section class="border-b border-[var(--color-border)]">
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+      <div class="max-w-2xl">
+        <IconBadge icon="layers-chapters" label="Formy zaliczeniowe" tone="muted" />
+        <h2 class="mt-4 font-serif text-[length:var(--text-fs-h2)] font-medium leading-tight tracking-tight">
+          „Praca zaliczeniowa” znaczy co innego na każdym kierunku
+        </h2>
+        <p class="mt-4 max-w-[62ch] leading-relaxed text-[var(--color-text-muted)]">
+          Pod jedną nazwą kryje się kilka zupełnie różnych form — i każdą pisze
+          się inaczej. Najczęstsze warianty, z którymi pomagam:
+        </p>
+      </div>
+
+      <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {[
+          ["Esej problemowy", "teza i argumentacja; oceniany za myślenie, nie za liczbę przypisów", "quote-marks"],
+          ["Case study", "analiza konkretnego przypadku wg ram z zajęć — firmy, wyroku, kampanii, pacjenta", "magnifier-text"],
+          ["Referat pisemny", "uporządkowane omówienie zagadnienia ze źródłami; forma najbliższa klasycznej „pracy na temat”", "book-open"],
+          ["Raport / projekt", "opis wykonanego zadania: badania, analizy danych, projektu zespołowego", "compass-plan"],
+        ].map(([name, desc, icon]) => (
+          <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-5">
+            <IconBadge icon={icon as any} tone="accent" size="sm" />
+            <h3 class="mt-3 font-sans text-base font-semibold">{name}</h3>
+            <p class="mt-1.5 text-[0.875rem] leading-relaxed text-[var(--color-text-muted)]">{desc}</p>
+          </div>
+        ))}
+      </div>
+
+      <p class="mt-8 flex items-start gap-2.5 text-[0.9375rem] text-[var(--color-text-muted)]">
+        <Icon name="arrow-right" class="mt-1 h-4 w-4 shrink-0 text-[var(--color-accent)]" />
+        <span>
+          Esej to Twój główny problem? Ma osobną stronę:
+          <a href="/esej/" class="font-medium">pomoc w pisaniu eseju</a> — bo dobry
+          esej rządzi się własnymi prawami.
+        </span>
+      </p>
+    </div>
+  </section>
+</WorkTypeLayout>

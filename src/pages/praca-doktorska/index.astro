@@ -1,0 +1,132 @@
+---
+import WorkTypeLayout from "../../layouts/WorkTypeLayout.astro";
+import IconBadge from "../../components/IconBadge.astro";
+import Icon from "../../components/Icon.astro";
+import { workTypes } from "../../data/workTypes";
+
+const workType = workTypes.find((t) => t.slug === "praca-doktorska")!;
+
+const scope = [
+  {
+    icon: "layers-chapters",
+    title: "Struktura rozprawy",
+    text: "Kilkaset stron musi się układać w jeden wywód. Pomagam zaplanować i uporządkować strukturę, zanim rozdziały zaczną żyć własnym życiem.",
+  },
+  {
+    icon: "draft-check",
+    title: "Redakcja naukowa",
+    text: "Spójność terminologii, logika argumentacji, styl akademicki bez akademickiego bełkotu. Rozdział po rozdziale, z komentarzem.",
+    accent: "highlight",
+  },
+  {
+    icon: "magnifier-text",
+    title: "Praca ze źródłami",
+    text: "Porządkowanie bibliografii (Zotero, Mendeley, BibTeX), ujednolicanie cytowań, weryfikacja kompletności przypisów w całej rozprawie.",
+  },
+  {
+    icon: "chat-guidance",
+    title: "Konsultacje metodologiczne",
+    text: "Drugie oko na projekt badania, operacjonalizację i interpretację wyników — zwłaszcza gdy promotor odpisuje raz na kwartał.",
+  },
+  {
+    icon: "book-open",
+    title: "Opracowania wzorcowe fragmentów",
+    text: "Wzorcowy podrozdział dyskusji wyników albo przeglądu literatury pod Twój temat — punkt odniesienia dla własnego tekstu.",
+  },
+  {
+    icon: "shield-check",
+    title: "Przygotowanie do recenzji",
+    text: "Czytam rozprawę okiem recenzenta: wychwytuję słabe punkty i nieobronione tezy, zanim wytkną je w recenzjach.",
+  },
+] as const;
+
+const faq = [
+  {
+    q: "Czy napiszesz mi doktorat?",
+    a: "Nie — i przy rozprawie doktorskiej mówię to wyjątkowo stanowczo. Doktorat to samodzielne osiągnięcie naukowe; przedstawienie cudzego tekstu na tym poziomie to nie tylko art. 272 KK, ale i odebranie stopnia po latach (taki przypadek co parę lat trafia do mediów). Pomagam za to w tym wszystkim, w czym doktorantowi wolno korzystać ze wsparcia: redakcji, strukturze, metodologii, bibliografii, przygotowaniu do obrony.",
+  },
+  {
+    q: "Na jakim etapie rozprawy warto się odezwać?",
+    a: "Najlepiej wcześnie — gdy struktura dopiero powstaje, korekty kosztują godziny, nie miesiące. Ale realnie większość doktorantów pisze do mnie z prawie gotowym tekstem, który „jakoś się nie klei”. To też da się poukładać: robię przegląd całości i wracam z mapą problemów, od najpoważniejszych.",
+  },
+  {
+    q: "Mój promotor jest mało dostępny. Zastąpisz go?",
+    a: "Nie zastąpię — promotor odpowiada za naukową stronę przewodu i tego nie przejmie nikt z zewnątrz. Mogę być za to regularnym partnerem do rozmowy o tekście: kimś, kto przeczyta rozdział w tydzień, a nie w semestr, i zada pytania, które usłyszysz potem od recenzentów.",
+  },
+  {
+    q: "Piszę doktorat po angielsku. Pomagasz?",
+    a: "Przy tekstach angielskich pomagam w strukturze i logice wywodu oraz robię redakcję porównawczą (czy tekst mówi to, co miał mówić). Finalną korektę językową native speakera zostawiam wyspecjalizowanym proofreaderom — i uczciwie mówię, gdzie kończy się moja rola.",
+  },
+];
+---
+
+<WorkTypeLayout
+  workType={workType}
+  title="Wsparcie przy pracy doktorskiej — redakcja i metodologia"
+  description="Wsparcie przy rozprawie doktorskiej: struktura, redakcja naukowa, konsultacje metodologiczne, bibliografia, przygotowanie do recenzji i obrony."
+  heading="Wsparcie przy rozprawie doktorskiej"
+  lead="Doktorat piszesz sam — inaczej się nie da i nie powinno. Ale między samodzielnością naukową a samotnością w pisaniu jest spora różnica. Daję to, czego doktorantom brakuje najbardziej: szybki, rzetelny feedback i porządek w setkach stron tekstu."
+  scopeTitle="W czym pomagam doktorantom"
+  scope={scope}
+  faq={faq}
+>
+  <section class="border-b border-[var(--color-border)]">
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+      <div class="max-w-2xl">
+        <IconBadge icon="clock" label="Realia doktoratu" tone="muted" />
+        <h2 class="mt-4 font-serif text-[length:var(--text-fs-h2)] font-medium leading-tight tracking-tight">
+          Dlaczego rozprawy grzęzną — i co z tym robię
+        </h2>
+      </div>
+
+      <div class="mt-10 grid gap-4 md:grid-cols-2">
+        <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-6">
+          <h3 class="font-sans text-base font-semibold">Tekst rośnie latami i traci spójność</h3>
+          <p class="mt-2 text-[0.9375rem] leading-relaxed text-[var(--color-text-muted)]">
+            Rozdział pierwszy pisałeś cztery lata temu, ostatni — w zeszłym
+            miesiącu. Terminologia się rozjechała, część źródeł się
+            zdezaktualizowała, wstęp obiecuje co innego, niż daje zakończenie.
+            Robię przegląd spójności całej rozprawy i listę rozjazdów do
+            usunięcia — konkretną, z numerami stron.
+          </p>
+        </div>
+        <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-6">
+          <h3 class="font-sans text-base font-semibold">Feedback przychodzi za rzadko</h3>
+          <p class="mt-2 text-[0.9375rem] leading-relaxed text-[var(--color-text-muted)]">
+            Promotor ma dydaktykę, granty i dwunastu innych doktorantów. Efekt:
+            piszesz miesiącami bez informacji zwrotnej, a potem jedna rozmowa
+            wywraca koncepcję. Ze mną cykl jest tygodniowy — wysyłasz fragment,
+            dostajesz uwagi, rozmawiamy. Rytm robi więcej niż motywacja.
+          </p>
+        </div>
+        <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-6">
+          <h3 class="font-sans text-base font-semibold">Dyskusja wyników udaje przegląd literatury</h3>
+          <p class="mt-2 text-[0.9375rem] leading-relaxed text-[var(--color-text-muted)]">
+            Najsłabszy rozdział większości rozpraw: wyniki są, ale rozmowa z
+            literaturą — „co z tego wynika dla pola” — kuleje. Na wzorcowym
+            podrozdziale pokazuję, jak konfrontować własne ustalenia z cudzymi,
+            zamiast referować jedne obok drugich.
+          </p>
+        </div>
+        <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-6">
+          <h3 class="font-sans text-base font-semibold">Recenzje można przewidzieć</h3>
+          <p class="mt-2 text-[0.9375rem] leading-relaxed text-[var(--color-text-muted)]">
+            Recenzenci pytają o to samo: nowość naukową, dobór metod,
+            reprezentatywność materiału, zasadność wniosków. Czytam rozprawę
+            dokładnie pod tym kątem i spisuję zarzuty, które sam bym postawił —
+            masz czas je załatać przed złożeniem, nie po.
+          </p>
+        </div>
+      </div>
+
+      <p class="mt-8 flex items-start gap-2.5 text-[0.9375rem] text-[var(--color-text-muted)]">
+        <Icon name="arrow-right" class="mt-1 h-4 w-4 shrink-0 text-[var(--color-accent)]" />
+        <span>
+          Publikujesz po drodze? Zobacz też
+          <a href="/artykul-naukowy/" class="font-medium">pomoc przy artykule naukowym</a> —
+          od struktury IMRaD po odpowiedzi na recenzje.
+        </span>
+      </p>
+    </div>
+  </section>
+</WorkTypeLayout>

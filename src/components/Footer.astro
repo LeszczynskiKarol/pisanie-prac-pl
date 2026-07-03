@@ -1,0 +1,66 @@
+---
+// Footer — wspólna stopka. Linki do wszystkich typów prac (internal linking, playbook 07 §10).
+import Logo from "./Logo.astro";
+import { siteConfig } from "../config/site";
+import { workTypes } from "../data/workTypes";
+---
+
+<footer class="border-t border-[var(--color-border)] bg-[var(--color-bg-elevated)]">
+  <div class="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:grid-cols-2 sm:px-6 lg:grid-cols-4 lg:px-8">
+    <div>
+      <Logo />
+      <p class="mt-4 max-w-xs text-sm leading-relaxed text-[var(--color-text-muted)]">
+        Pomoc w pisaniu prac dyplomowych i zaliczeniowych: konsultacje, plany,
+        opracowania wzorcowe do celów poglądowych, redakcja i korekta.
+      </p>
+    </div>
+
+    <div>
+      <p class="text-xs font-medium uppercase tracking-[0.1em] text-[var(--color-text-faint)]">Typy prac</p>
+      <ul class="mt-4 space-y-2 text-sm">
+        {workTypes.slice(0, 4).map((t) => (
+          <li>
+            <a href={`/${t.slug}/`} class="text-[var(--color-text-muted)] no-underline hover:text-[var(--color-text)]">
+              {t.name}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div>
+      <p class="text-xs font-medium uppercase tracking-[0.1em] text-[var(--color-text-faint)]">&nbsp;</p>
+      <ul class="mt-4 space-y-2 text-sm">
+        {workTypes.slice(4).map((t) => (
+          <li>
+            <a href={`/${t.slug}/`} class="text-[var(--color-text-muted)] no-underline hover:text-[var(--color-text)]">
+              {t.name}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div>
+      <p class="text-xs font-medium uppercase tracking-[0.1em] text-[var(--color-text-faint)]">Na skróty</p>
+      <ul class="mt-4 space-y-2 text-sm">
+        <li><a href="/jak-pomagam/" class="text-[var(--color-text-muted)] no-underline hover:text-[var(--color-text)]">Jak pomagam</a></li>
+        <li><a href="/legalnosc/" class="text-[var(--color-text-muted)] no-underline hover:text-[var(--color-text)]">Legalność usług</a></li>
+        <li><a href="/kontakt/" class="text-[var(--color-text-muted)] no-underline hover:text-[var(--color-text)]">Kontakt i wycena</a></li>
+        <li>
+          <a href={`mailto:${siteConfig.contact.email}`} class="text-[var(--color-text-muted)] no-underline hover:text-[var(--color-text)]">
+            {siteConfig.contact.email}
+          </a>
+        </li>
+        <li><a href="/polityka-prywatnosci/" class="text-[var(--color-text-muted)] no-underline hover:text-[var(--color-text)]">Polityka prywatności</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-t border-[var(--color-border)]">
+    <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-2 px-4 py-4 text-xs text-[var(--color-text-faint)] sm:px-6 lg:px-8">
+      <span>© {new Date().getFullYear()} {siteConfig.name}. Wszystkie prawa zastrzeżone.</span>
+      <span>Opracowania wzorcowe służą wyłącznie do celów poglądowych.</span>
+    </div>
+  </div>
+</footer>

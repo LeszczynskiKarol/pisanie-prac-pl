@@ -1,0 +1,129 @@
+---
+import WorkTypeLayout from "../../layouts/WorkTypeLayout.astro";
+import IconBadge from "../../components/IconBadge.astro";
+import Icon from "../../components/Icon.astro";
+import { workTypes } from "../../data/workTypes";
+
+const workType = workTypes.find((t) => t.slug === "praca-magisterska")!;
+
+const scope = [
+  {
+    icon: "compass-plan",
+    title: "Problem badawczy i hipotezy",
+    text: "Magisterka wymaga własnego problemu badawczego, nie tylko opisu zjawiska. Pomagam go sformułować tak, żeby dało się na niego odpowiedzieć danymi.",
+  },
+  {
+    icon: "magnifier-text",
+    title: "Przegląd literatury",
+    text: "Nie streszczanie podręczników, tylko krytyczne zestawienie stanowisk. Wskazuję źródła — także anglojęzyczne, jeśli kierunek tego wymaga.",
+  },
+  {
+    icon: "layers-chapters",
+    title: "Metodologia i badania własne",
+    text: "Dobór metody, operacjonalizacja zmiennych, konstrukcja ankiety lub scenariusza wywiadu, dobór próby. Najczęstsze pole minowe magisterki.",
+    accent: "highlight",
+  },
+  {
+    icon: "book-open",
+    title: "Opracowanie wzorcowe",
+    text: "Rozdział empiryczny albo całość napisana od zera pod Twój temat — zobacz, jak wygląda porządna analiza wyników, zanim napiszesz własną.",
+  },
+  {
+    icon: "draft-check",
+    title: "Analiza wyników",
+    text: "Pomagam przełożyć surowe dane na wnioski: statystyki opisowe, testy istotności tam, gdzie mają sens, interpretacja bez nadinterpretacji.",
+  },
+  {
+    icon: "grad-cap",
+    title: "Obrona i egzamin magisterski",
+    text: "Autoreferat, pytania z zakresu pracy i kierunku, próba obrony. Komisja pyta o decyzje metodologiczne — będziesz umiał je uzasadnić.",
+  },
+] as const;
+
+const faq = [
+  {
+    q: "Czym praca magisterska różni się od licencjackiej w praktyce?",
+    a: "Głębią, nie tylko objętością. Licencjat może opisywać i porządkować; magisterka ma coś ustalić — postawić hipotezy i zweryfikować je własnym badaniem. Do tego dochodzi wyższy rygor metodologiczny: uzasadnienie doboru próby, rzetelność narzędzia, świadomość ograniczeń badania. Promotorzy wybaczają na magisterce znacznie mniej.",
+  },
+  {
+    q: "Moje badanie wyszło „nijak” — ankiety się nie potwierdziły. Co teraz?",
+    a: "To nie katastrofa, tylko wynik. Hipoteza niepotwierdzona to też ustalenie naukowe — trzeba je uczciwie opisać i przedyskutować możliwe przyczyny. Pomagam przeformułować rozdział z analizą tak, żeby praca broniła się mimo (a czasem dzięki) zaskakujących wyników. Dopisywanie danych nie wchodzi w grę.",
+  },
+  {
+    q: "Studiuję zaocznie i pracuję na pełen etat. Jak wygląda współpraca czasowo?",
+    a: "Większość moich klientów to właśnie studenci niestacjonarni. Współpraca jest asynchroniczna: materiały i uwagi wymieniamy mailem, konsultacje umawiamy wieczorami albo w weekendy. Harmonogram etapów układam pod Twój kalendarz zjazdów i terminy u promotora.",
+  },
+  {
+    q: "Czy pomagasz też przy pracach z analizą statystyczną (SPSS, R, Excel)?",
+    a: "Tak — od doboru testów po interpretację wyników. Jeśli badanie wymaga analiz, których nie prowadzę, mówię o tym otwarcie przy wycenie, zamiast improwizować. Dostajesz też wyjaśnienie każdej analizy ludzkim językiem, bo na obronie to Ty musisz powiedzieć, czemu akurat test t-Studenta.",
+  },
+];
+---
+
+<WorkTypeLayout
+  workType={workType}
+  title="Pomoc w pisaniu pracy magisterskiej — badania i metodologia"
+  description="Pomoc w pisaniu pracy magisterskiej: problem badawczy, metodologia, badania własne, analiza wyników, opracowania wzorcowe. Bezpłatna wycena w 24 h."
+  heading="Pomoc w pisaniu pracy magisterskiej"
+  lead="Magisterka to nie jest „dłuższy licencjat”. Wymaga własnego badania, hipotez i analizy, z której coś wynika — a promotorzy rozliczają z tego bez taryfy ulgowej. Pomagam przejść przez każdy etap: od problemu badawczego po odpowiedzi na pytania komisji."
+  scope={scope}
+  faq={faq}
+>
+  <section class="border-b border-[var(--color-border)]">
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+      <div class="max-w-2xl">
+        <IconBadge icon="shield-check" label="Najtrudniejszy rozdział" tone="accent" />
+        <h2 class="mt-4 font-serif text-[length:var(--text-fs-h2)] font-medium leading-tight tracking-tight">
+          Badania własne — tu wykłada się najwięcej magistrantów
+        </h2>
+        <p class="mt-4 max-w-[62ch] leading-relaxed text-[var(--color-text-muted)]">
+          Teorię da się napisać z książek. Rozdział empiryczny trzeba
+          <em>zaprojektować</em> — i większość problemów, z którymi ludzie do mnie
+          piszą, zaczęła się od decyzji podjętych na tym etapie. Trzy błędy
+          wracają jak bumerang:
+        </p>
+      </div>
+
+      <div class="mt-10 grid gap-4 md:grid-cols-3">
+        <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-6">
+          <span class="font-serif text-2xl font-semibold text-[var(--color-accent-secondary)]/60">1</span>
+          <h3 class="mt-2 font-sans text-base font-semibold">Ankieta pisana „na czuja”</h3>
+          <p class="mt-2 text-[0.9375rem] leading-relaxed text-[var(--color-text-muted)]">
+            Pytania sugerujące, brak metryczki, skale wymieszane bez ładu. Potem
+            z takich danych nie da się wyciągnąć nic — a badania nie powtórzysz,
+            bo respondenci już się rozeszli. Konsultuj narzędzie, zanim je
+            wypuścisz. To najtańsza godzina całej magisterki.
+          </p>
+        </div>
+        <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-6">
+          <span class="font-serif text-2xl font-semibold text-[var(--color-accent-secondary)]/60">2</span>
+          <h3 class="mt-2 font-sans text-base font-semibold">Hipotezy doklejone po fakcie</h3>
+          <p class="mt-2 text-[0.9375rem] leading-relaxed text-[var(--color-text-muted)]">
+            Najpierw zebrane dane, potem wymyślanie, co miały potwierdzić.
+            Komisja to widzi od razu, bo hipotezy nie łączą się z teorią.
+            Kolejność musi być odwrotna — i pilnuję jej od pierwszego konspektu.
+          </p>
+        </div>
+        <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-6">
+          <span class="font-serif text-2xl font-semibold text-[var(--color-accent-secondary)]/60">3</span>
+          <h3 class="mt-2 font-sans text-base font-semibold">Wyniki bez interpretacji</h3>
+          <p class="mt-2 text-[0.9375rem] leading-relaxed text-[var(--color-text-muted)]">
+            Dwadzieścia wykresów kołowych i zdanie „większość badanych odpowiedziała
+            twierdząco” pod każdym. To sprawozdanie, nie analiza. Pokazuję na
+            wzorcowym rozdziale, jak łączyć wyniki z literaturą i hipotezami —
+            różnica jest widoczna od pierwszego akapitu.
+          </p>
+        </div>
+      </div>
+
+      <p class="mt-8 flex items-start gap-2.5 text-[0.9375rem] text-[var(--color-text-muted)]">
+        <Icon name="arrow-right" class="mt-1 h-4 w-4 shrink-0 text-[var(--color-accent)]" />
+        <span>
+          Piszesz pracę z kierunku technicznego? Sprawdź
+          <a href="/praca-inzynierska/" class="font-medium">pomoc przy pracy inżynierskiej</a> —
+          tam zamiast badań ankietowych liczy się projekt.
+        </span>
+      </p>
+    </div>
+  </section>
+</WorkTypeLayout>

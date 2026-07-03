@@ -1,0 +1,188 @@
+---
+// WorkTypeLayout — wspólny szkielet podstrony typu pracy.
+// Hero z breadcrumb → karty "w czym pomagam" → unikalna treść strony (slot)
+// → FAQ (+ FAQPage JSON-LD) → LegalNote → CTA.
+import BaseLayout from "./BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Icon from "../components/Icon.astro";
+import IconBadge from "../components/IconBadge.astro";
+import FeatureCard from "../components/FeatureCard.astro";
+import LegalNote from "../components/LegalNote.astro";
+import CtaSection from "../components/CtaSection.astro";
+import BackgroundDecor from "../components/BackgroundDecor.astro";
+import { siteConfig } from "../config/site";
+import type { WorkType } from "../data/workTypes";
+import type { IconName } from "../icons/set";
+
+interface ScopeItem {
+  icon: IconName;
+  title: string;
+  text: string;
+  accent?: "default" | "accent" | "highlight";
+}
+
+interface FaqItem {
+  q: string;
+  a: string;
+}
+
+interface Props {
+  workType: WorkType;
+  title: string;
+  description: string;
+  /** Nagłówek H1 */
+  heading: string;
+  /** Akapit pod H1 */
+  lead: string;
+  scopeTitle?: string;
+  scope: ScopeItem[];
+  faq: FaqItem[];
+}
+
+const {
+  workType,
+  title,
+  description,
+  heading,
+  lead,
+  scopeTitle = "W czym konkretnie pomagam",
+  scope,
+  faq,
+} = Astro.props;
+
+const pageUrl = `${siteConfig.url}/${workType.slug}/`;
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: `Pomoc w pisaniu ${workType.genitive}`,
+    serviceType: "Pomoc edukacyjna i redakcyjna",
+    description,
+    url: pageUrl,
+    areaServed: "PL",
+    provider: {
+      "@type": "Organization",
+      name: siteConfig.name,
+      url: siteConfig.url,
+      email: siteConfig.contact.email,
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Strona główna", item: `${siteConfig.url}/` },
+      { "@type": "ListItem", position: 2, name: workType.name, item: pageUrl },
+    ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faq.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  },
+];
+---
+
+<BaseLayout {title} {description} canonicalUrl={pageUrl} jsonLd={jsonLd}>
+  <Header />
+
+  <main id="main">
+    {/* ── Hero podstrony ── */}
+    <section class="relative overflow-hidden border-b border-[var(--color-border)]">
+      <div class="relative mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+        <nav aria-label="Okruszki" class="text-sm text-[var(--color-text-faint)]">
+          <a href="/" class="text-[var(--color-text-muted)] no-underline hover:text-[var(--color-text)]">Strona główna</a>
+          <span aria-hidden="true" class="mx-2">/</span>
+          <span class="text-[var(--color-text)]">{workType.name}</span>
+        </nav>
+
+        <div class="mt-8 max-w-3xl">
+          <IconBadge icon={workType.icon} label={workType.name} tone="accent" />
+          <h1 class="mt-5 font-serif text-[length:var(--text-fs-h1)] font-medium leading-[1.1] tracking-tight">
+            {heading}
+          </h1>
+          <p class="mt-6 max-w-[60ch] text-lg leading-relaxed text-[var(--color-text-muted)]">
+            {lead}
+          </p>
+          <div class="mt-8 flex flex-wrap items-center gap-3">
+            <a
+              href="/kontakt/"
+              class="inline-flex items-center gap-2 rounded-md bg-[var(--color-accent)] px-6 py-3 text-base font-medium text-[var(--color-accent-fg)] no-underline transition-colors hover:bg-[var(--color-accent-hover)]"
+            >
+              Bezpłatna wycena w 24 h
+              <Icon name="arrow-right" class="h-4 w-4" />
+            </a>
+            <a
+              href="/legalnosc/"
+              class="inline-flex items-center gap-2 rounded-md border border-[var(--color-border)] bg-[var(--color-bg-elevated)] px-6 py-3 text-base font-medium text-[var(--color-text)] no-underline transition-colors hover:bg-[var(--color-bg-subtle)]"
+            >
+              <Icon name="scale" class="h-4 w-4 text-[var(--color-accent)]" />
+              Zasady legalnej pomocy
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* ── Zakres pomocy — karty ── */}
+    <section class="border-b border-[var(--color-border)] bg-[var(--color-bg-elevated)]">
+      <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+        <div class="max-w-2xl">
+          <IconBadge icon="draft-check" label="Zakres pomocy" tone="muted" />
+          <h2 class="mt-4 font-serif text-[length:var(--text-fs-h2)] font-medium leading-tight tracking-tight">
+            {scopeTitle}
+          </h2>
+        </div>
+        <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {scope.map((s) => (
+            <FeatureCard icon={s.icon} title={s.title} text={s.text} accent={s.accent ?? "default"} />
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* ── Unikalna treść strony ── */}
+    <slot />
+
+    {/* ── FAQ ── */}
+    <section class="relative overflow-hidden border-t border-[var(--color-border)] bg-[var(--color-bg)]">
+      <BackgroundDecor variant="dots" intensity="subtle" />
+      <div class="relative mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:py-20">
+        <IconBadge icon="chat-guidance" label="Częste pytania" tone="accent" />
+        <h2 class="mt-4 font-serif text-[length:var(--text-fs-h2)] font-medium leading-tight tracking-tight">
+          Pytania, które słyszę najczęściej
+        </h2>
+        <div class="mt-8 space-y-3">
+          {faq.map((f) => (
+            <details class="group rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-5">
+              <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-sans text-[1.0625rem] font-semibold text-[var(--color-text)] [&::-webkit-details-marker]:hidden">
+                {f.q}
+                <Icon name="chevron-down" class="h-5 w-5 shrink-0 text-[var(--color-text-faint)] transition-transform group-open:rotate-180" />
+              </summary>
+              <p class="mt-3 max-w-[62ch] text-[0.9375rem] leading-relaxed text-[var(--color-text-muted)]">
+                {f.a}
+              </p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* ── Legalność ── */}
+    <section class="border-t border-[var(--color-border)] bg-[var(--color-bg-elevated)]">
+      <div class="mx-auto max-w-3xl px-4 py-14 sm:px-6">
+        <LegalNote workGenitive={workType.genitive} />
+      </div>
+    </section>
+
+    <CtaSection />
+  </main>
+
+  <Footer />
+</BaseLayout>

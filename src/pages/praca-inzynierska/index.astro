@@ -1,0 +1,123 @@
+---
+import WorkTypeLayout from "../../layouts/WorkTypeLayout.astro";
+import IconBadge from "../../components/IconBadge.astro";
+import Icon from "../../components/Icon.astro";
+import { workTypes } from "../../data/workTypes";
+
+const workType = workTypes.find((t) => t.slug === "praca-inzynierska")!;
+
+const scope = [
+  {
+    icon: "compass-plan",
+    title: "Koncepcja projektu",
+    text: "Inżynierka stoi projektem: aplikacją, instalacją, procesem, konstrukcją. Pomagam dobrać zakres, który zmieścisz w semestrze i obronisz przed komisją.",
+    accent: "highlight",
+  },
+  {
+    icon: "layers-chapters",
+    title: "Dokumentacja techniczna",
+    text: "Wymagania, architektura, schematy, opis implementacji lub obliczeń. Uporządkowana dokumentacja to w inżynierce połowa oceny.",
+  },
+  {
+    icon: "book-open",
+    title: "Opracowanie wzorcowe",
+    text: "Wzorcowy rozdział projektowy albo całość pod Twój temat — zobacz, jak opisać projekt technicznie i po polsku zarazem.",
+  },
+  {
+    icon: "draft-check",
+    title: "Część teoretyczna",
+    text: "Krótki, konkretny przegląd technologii i rozwiązań. Bez przepisywania dokumentacji — z porównaniem, dlaczego wybrałeś to, a nie tamto.",
+  },
+  {
+    icon: "shield-check",
+    title: "Testy i walidacja",
+    text: "Jak zaplanować testy albo pomiary, żeby rozdział „weryfikacja rozwiązania” nie był jednym akapitem grzecznościowym.",
+  },
+  {
+    icon: "grad-cap",
+    title: "Egzamin inżynierski",
+    text: "Pytania kierunkowe i pytania o projekt. Przechodzimy przez decyzje projektowe tak, żebyś każdą umiał obronić jednym zdaniem.",
+  },
+] as const;
+
+const faq = [
+  {
+    q: "Czy pomagasz też z samym projektem (kod, obliczenia), czy tylko z tekstem?",
+    a: "Głównie z tekstem i strukturą pracy, ale stronę projektową konsultuję: architekturę aplikacji, dobór technologii, sposób opisania obliczeń czy pomiarów. Jeśli projekt wymaga specjalistycznej wiedzy spoza mojego zakresu, powiem o tym wprost przy wycenie — wolę odmówić niż udawać.",
+  },
+  {
+    q: "Mam gotową aplikację, ale nie umiem jej opisać. Częsty przypadek?",
+    a: "Najczęstszy na kierunkach informatycznych. Kod działa, a praca stoi, bo „co tu pisać na 50 stron o CRUD-zie”. Odpowiedź: wymagania, decyzje architektoniczne, alternatywy które odrzuciłeś, testy, wnioski rozwojowe. Na wzorcowym rozdziale pokazuję, jak z działającego projektu zrobić tekst, który komisja czyta z sensem.",
+  },
+  {
+    q: "Które rozdziały inżynierki komisja czyta najuważniej?",
+    a: "Opis własnego rozwiązania i weryfikację. Teoria bywa kartkowana; za to na pytaniu „dlaczego wybrał pan tę technologię/metodę” wykłada się co drugi dyplomant. Dlatego przy współpracy najwięcej czasu schodzi nam na rozdziały projektowe i uzasadnienia decyzji.",
+  },
+  {
+    q: "Uczelnia wymaga konkretnego szablonu dokumentu. Ogarniasz to?",
+    a: "Tak — przysyłasz wytyczne redakcyjne swojego wydziału (marginesy, style nagłówków, sposób numeracji rysunków i wzorów, format bibliografii), a redakcję robię dokładnie pod nie. Politechniki bywają w tym drobiazgowe i „prawie dobrze” potrafi wrócić do poprawy.",
+  },
+];
+---
+
+<WorkTypeLayout
+  workType={workType}
+  title="Pomoc w pisaniu pracy inżynierskiej — projekt i dokumentacja"
+  description="Pomoc w pisaniu pracy inżynierskiej: koncepcja projektu, dokumentacja techniczna, testy, opracowania wzorcowe jako inspiracja. Wycena w 24 h."
+  heading="Pomoc w pisaniu pracy inżynierskiej"
+  lead="W inżynierce projekt jest sercem pracy, a tekst — jego dokumentacją. Problem w tym, że na studiach uczą projektować, rzadko dokumentować. Pomagam opisać Twój projekt tak, żeby komisja zobaczyła w nim inżynierską robotę, a nie zgadywała, co autor miał na myśli."
+  scope={scope}
+  faq={faq}
+>
+  <section class="border-b border-[var(--color-border)]">
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+      <div class="grid gap-12 lg:grid-cols-2 lg:items-start">
+        <div>
+          <IconBadge icon="compass-plan" label="Specyfika inżynierki" tone="muted" />
+          <h2 class="mt-4 font-serif text-[length:var(--text-fs-h2)] font-medium leading-tight tracking-tight">
+            Czym praca inżynierska różni się od licencjackiej
+          </h2>
+          <p class="mt-4 max-w-[60ch] leading-relaxed text-[var(--color-text-muted)]">
+            Licencjat odpowiada na pytanie „co wiadomo o zjawisku X”. Inżynierka
+            odpowiada na pytanie „jak zbudować Y, żeby działało” — i musi
+            pokazać, że działa. Stąd inne proporcje: mniej przeglądu literatury,
+            więcej własnych decyzji, schematów, kodu, obliczeń i testów.
+          </p>
+          <p class="mt-4 max-w-[60ch] leading-relaxed text-[var(--color-text-muted)]">
+            Typowy układ, który sprawdza się na większości politechnik: analiza
+            wymagań i istniejących rozwiązań, projekt (architektura, dobór
+            technologii), implementacja lub wykonanie, testy z wynikami,
+            wnioski. Każdy wydział ma swoje odchylenia — dlatego zawsze
+            zaczynam od wytycznych Twojej uczelni, nie od uniwersalnego szablonu.
+          </p>
+        </div>
+
+        <div class="rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-6 md:p-8">
+          <h3 class="font-sans text-lg font-semibold">Kierunki, z których dostaję najwięcej zapytań</h3>
+          <ul class="mt-4 space-y-3">
+            {[
+              ["Informatyka i kierunki pokrewne", "aplikacje webowe i mobilne, systemy bazodanowe, uczenie maszynowe"],
+              ["Budownictwo i inżynieria środowiska", "projekty konstrukcji, instalacji, analiz obciążeń"],
+              ["Mechanika, mechatronika, automatyka", "projekty urządzeń, sterowania, dokumentacja CAD"],
+              ["Logistyka i zarządzanie produkcją", "optymalizacja procesów, analizy przepływów, projekty usprawnień"],
+              ["Elektrotechnika i energetyka", "projekty instalacji, dobór aparatury, analizy sieci"],
+            ].map(([field, examples]) => (
+              <li class="flex items-start gap-2.5 text-[0.9375rem]">
+                <Icon name="check" class="mt-1 h-4 w-4 shrink-0 text-[var(--color-accent)]" />
+                <span>
+                  <span class="font-medium text-[var(--color-text)]">{field}</span>
+                  <span class="text-[var(--color-text-muted)]"> — {examples}</span>
+                </span>
+              </li>
+            ))}
+          </ul>
+          <p class="mt-5 text-[0.9375rem] leading-relaxed text-[var(--color-text-muted)]">
+            Twojego kierunku nie ma na liście? Napisz — po temacie i wytycznych
+            ocenię uczciwie, czy pomogę, czy odeślę Cię do kogoś lepszego w danej
+            działce.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</WorkTypeLayout>

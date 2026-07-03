@@ -1,0 +1,405 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Icon from "../components/Icon.astro";
+import IconBadge from "../components/IconBadge.astro";
+import FeatureCard from "../components/FeatureCard.astro";
+import StatBlock from "../components/StatBlock.astro";
+import HeroIllustration from "../components/HeroIllustration.astro";
+import BackgroundDecor from "../components/BackgroundDecor.astro";
+import ContactForm from "../components/ContactForm.astro";
+import { siteConfig } from "../config/site";
+import { workTypes } from "../data/workTypes";
+
+const stats = [
+  { value: "24 h", label: "na wycenę i plan działania", accent: true },
+  { value: "1:1", label: "pracujesz bezpośrednio ze mną" },
+  { value: "2 tury", label: "poprawek w cenie każdego etapu" },
+  { value: "0 zł", label: "za wycenę i pierwszą konsultację" },
+];
+
+const pillars = [
+  {
+    icon: "chat-guidance",
+    title: "Konsultacje 1:1",
+    text: "Rozmawiamy o temacie, tezie i literaturze. Tłumaczę, czego promotor oczekuje po każdym rozdziale — i dlaczego.",
+  },
+  {
+    icon: "compass-plan",
+    title: "Plan pracy i metodologia",
+    text: "Konspekt, struktura rozdziałów, dobór metod badawczych, harmonogram. Dobry plan to połowa pracy — dosłownie.",
+  },
+  {
+    icon: "book-open",
+    title: "Opracowania wzorcowe",
+    text: "Przykładowy rozdział albo całe opracowanie napisane od zera pod Twój temat. Materiał poglądowy: uczysz się na nim struktury, stylu i cytowania.",
+    accent: "highlight",
+  },
+  {
+    icon: "draft-check",
+    title: "Redakcja i korekta",
+    text: "Porządkuję Twój tekst: język, logika wywodu, przypisy, bibliografia, formatowanie według wymogów uczelni.",
+  },
+  {
+    icon: "shield-check",
+    title: "Uczciwie wobec JSA",
+    text: "Każdy tekst powstaje od zera, bez kopiowania. Nie obiecuję „oszukania systemu” — pokazuję, jak pisać tak, żeby nie było czego oszukiwać.",
+  },
+  {
+    icon: "grad-cap",
+    title: "Przygotowanie do obrony",
+    text: "Autoreferat, prawdopodobne pytania komisji, próba odpowiedzi. Na obronę idziesz z pracą, którą naprawdę znasz.",
+  },
+];
+
+const steps = [
+  {
+    title: "Wysyłasz temat i wytyczne",
+    text: "Formularz przyjmuje załączniki — wrzuć wymagania promotora, konspekt albo fragment, który już masz.",
+  },
+  {
+    title: "Dostajesz wycenę i plan",
+    text: "W ciągu 24 godzin odpisuję z ceną, zakresem i harmonogramem etapów. Zero zobowiązań, dopóki nie potwierdzisz.",
+  },
+  {
+    title: "Pracujemy etapami",
+    text: "Materiał dostajesz rozdział po rozdziale, z komentarzem co i dlaczego. Pytania mile widziane — od tego są konsultacje.",
+  },
+  {
+    title: "Finał i obrona",
+    text: "Redakcja całości, dwie tury poprawek w cenie, a na koniec przygotowanie do rozmowy z komisją.",
+  },
+];
+
+const faq = [
+  {
+    q: "Czy taka pomoc jest legalna?",
+    a: "Tak. Konsultacje, plany, opracowania wzorcowe do celów poglądowych i redakcja to legalne usługi edukacyjne — jak korepetycje. Granica przebiega gdzie indziej: to student nie może przedstawić cudzego tekstu jako własnej pracy (art. 272 Kodeksu karnego dotyczy właśnie tego oświadczenia). Dlatego wszystko, co ode mnie dostajesz, służy jako materiał pomocniczy — szczegóły opisuję na stronie o legalności.",
+  },
+  {
+    q: "Czy praca przejdzie JSA?",
+    a: "Każde opracowanie piszę od zera, pod konkretny temat, bez wklejania cudzych fragmentów. Jednolity System Antyplagiatowy mierzy podobieństwo do istniejących tekstów — praca pisana uczciwie, z poprawnymi cytowaniami, nie ma się czego bać. Nie oferuję za to żadnych trików „na obejście systemu”, bo to prosta droga do dyscyplinarki.",
+  },
+  {
+    q: "Ile to kosztuje?",
+    a: "Zależy od typu pracy, kierunku, objętości i terminu — inaczej wycenia się esej na zaliczenie, inaczej rozdział badawczy magisterki z analizą statystyczną. Dlatego nie mam sztywnego cennika: wyślij temat i wytyczne, a w 24 godziny dostaniesz konkretną kwotę. Wycena jest bezpłatna i do niczego nie zobowiązuje.",
+  },
+  {
+    q: "Mogę zamówić tylko fragment — jeden rozdział, samą redakcję, sam plan?",
+    a: "Tak, i to częsty scenariusz. Część osób potrzebuje tylko konspektu i literatury na start, część — redakcji prawie gotowej pracy, a część utknęła na jednym rozdziale metodologicznym. Zakres ustalamy przy wycenie i płacisz tylko za to, czego faktycznie potrzebujesz.",
+  },
+  {
+    q: "Jak szybko dostanę pierwszy materiał?",
+    a: "Plan pracy i propozycję literatury zwykle w kilka dni od potwierdzenia. Terminy kolejnych etapów zależą od objętości — przy wycenie dostajesz harmonogram z konkretnymi datami i tego harmonogramu się trzymam.",
+  },
+];
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: siteConfig.name,
+    url: siteConfig.url,
+    email: siteConfig.contact.email,
+    description:
+      "Pomoc w pisaniu prac dyplomowych i zaliczeniowych: konsultacje, plany pracy, opracowania wzorcowe do celów poglądowych, redakcja i korekta.",
+    logo: `${siteConfig.url}/favicon-32.png`,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: siteConfig.name,
+    url: siteConfig.url,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faq.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  },
+];
+---
+
+<BaseLayout
+  title="Pomoc w pisaniu prac — licencjackich, magisterskich, inżynierskich"
+  description="Legalna pomoc w pisaniu prac: konsultacje, plan pracy, opracowania wzorcowe jako inspiracja, redakcja i korekta. Bezpłatna wycena w 24 h."
+  canonicalUrl={`${siteConfig.url}/`}
+  jsonLd={jsonLd}
+>
+  <Header />
+
+  <main id="main">
+    {/* ════════ HERO ════════ */}
+    <section class="relative overflow-hidden border-b border-[var(--color-border)]">
+      <BackgroundDecor variant="mesh" intensity="subtle" />
+
+      <div class="relative mx-auto grid max-w-6xl gap-12 px-4 py-20 sm:px-6 md:grid-cols-2 md:items-center md:py-28 lg:px-8">
+        <div>
+          <span class="inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-bg-elevated)] px-3 py-1 text-xs font-medium uppercase tracking-[0.08em] text-[var(--color-text-muted)]">
+            <span class="h-1.5 w-1.5 rounded-full bg-[var(--color-accent)]"></span>
+            Pomoc w pisaniu — legalnie i po ludzku
+          </span>
+
+          <h1 class="mt-6 font-serif text-[length:var(--text-fs-display)] font-medium leading-[1.05] tracking-tight text-[var(--color-text)]">
+            Pomogę Ci napisać <span class="text-gradient-accent">pracę</span>, którą obronisz ze zrozumieniem
+          </h1>
+
+          <p class="mt-6 max-w-[55ch] text-lg leading-relaxed text-[var(--color-text-muted)]">
+            Konsultacje, plan pracy, opracowania wzorcowe do celów poglądowych,
+            redakcja i korekta. Od eseju na zaliczenie po rozprawę doktorską —
+            tak, żebyś przed komisją mówił o własnym tekście swobodnie, a nie
+            recytował cudzy.
+          </p>
+
+          <div class="mt-10 flex flex-wrap items-center gap-3">
+            <a
+              href="/kontakt/"
+              class="inline-flex items-center gap-2 rounded-md bg-[var(--color-accent)] px-6 py-3 text-base font-medium text-[var(--color-accent-fg)] no-underline transition-colors hover:bg-[var(--color-accent-hover)]"
+            >
+              Bezpłatna wycena w 24 h
+              <Icon name="arrow-right" class="h-4 w-4" />
+            </a>
+            <a
+              href="#typy-prac"
+              class="inline-flex items-center gap-2 rounded-md border border-[var(--color-border)] bg-[var(--color-bg-elevated)] px-6 py-3 text-base font-medium text-[var(--color-text)] no-underline transition-colors hover:bg-[var(--color-bg-subtle)]"
+            >
+              Zobacz typy prac
+            </a>
+          </div>
+        </div>
+
+        <div class="relative">
+          <HeroIllustration />
+        </div>
+      </div>
+    </section>
+
+    {/* ════════ STAT ROW ════════ */}
+    <section class="border-b border-[var(--color-border)] bg-[var(--color-bg-elevated)]" aria-label="Zasady współpracy w liczbach">
+      <div class="mx-auto grid max-w-6xl grid-cols-2 gap-x-6 gap-y-8 px-4 py-12 sm:grid-cols-4 sm:px-6 lg:px-8">
+        {stats.map((s) => (
+          <StatBlock value={s.value} label={s.label} accent={s.accent} />
+        ))}
+      </div>
+    </section>
+
+    {/* ════════ JAK POMAGAM ════════ */}
+    <section id="jak-pomagam" class="border-b border-[var(--color-border)]">
+      <div class="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+        <div class="max-w-2xl">
+          <IconBadge icon="nib" label="Jak pomagam" tone="accent" />
+          <h2 class="mt-4 font-serif text-[length:var(--text-fs-h2)] font-medium leading-tight tracking-tight">
+            Sześć form wsparcia — od pierwszego konspektu po obronę
+          </h2>
+          <p class="mt-4 text-lg text-[var(--color-text-muted)]">
+            Sam wybierasz, ile pomocy potrzebujesz. Jedni przychodzą po plan i
+            literaturę, inni po opracowanie wzorcowe całości, jeszcze inni tylko
+            po redakcję tego, co już napisali.
+          </p>
+        </div>
+
+        <div class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {pillars.map((f) => (
+            <FeatureCard
+              icon={f.icon}
+              title={f.title}
+              text={f.text}
+              accent={(f.accent as "highlight" | undefined) ?? "default"}
+            />
+          ))}
+        </div>
+
+        <p class="mt-8 text-[0.9375rem] text-[var(--color-text-muted)]">
+          Szczegółowy opis każdej formy pomocy — razem z tym, czego świadomie nie robię —
+          znajdziesz na stronie <a href="/jak-pomagam/" class="font-medium">jak pomagam</a>.
+        </p>
+      </div>
+    </section>
+
+    {/* ════════ TYPY PRAC ════════ */}
+    <section id="typy-prac" class="border-b border-[var(--color-border)] bg-[var(--color-bg-subtle)]">
+      <div class="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+        <div class="max-w-2xl">
+          <IconBadge icon="layers-chapters" label="Typy prac" tone="muted" />
+          <h2 class="mt-4 font-serif text-[length:var(--text-fs-h2)] font-medium leading-tight tracking-tight">
+            Każdy typ pracy rządzi się swoimi prawami
+          </h2>
+          <p class="mt-4 text-lg text-[var(--color-text-muted)]">
+            Esej wymaga tezy, inżynierka — projektu, magisterka — badań. Wybierz
+            swój typ pracy i zobacz, jak dokładnie wygląda pomoc.
+          </p>
+        </div>
+
+        <div class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {workTypes.map((t) => (
+            <FeatureCard icon={t.icon} title={t.name} text={t.teaser} href={`/${t.slug}/`} />
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* ════════ PROCES ════════ */}
+    <section id="proces" class="relative overflow-hidden border-b border-[var(--color-border)]">
+      <BackgroundDecor variant="dots" intensity="subtle" />
+
+      <div class="relative mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+        <div class="max-w-2xl">
+          <IconBadge icon="clock" label="Jak to działa" tone="muted" />
+          <h2 class="mt-4 font-serif text-[length:var(--text-fs-h2)] font-medium leading-tight tracking-tight">
+            Od wytycznych do obrony w czterech krokach
+          </h2>
+        </div>
+
+        <ol class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          {steps.map((step, i) => (
+            <li class="relative flex flex-col gap-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-6">
+              <span class="font-serif text-3xl font-semibold text-[var(--color-accent-secondary)]/50">
+                0{i + 1}
+              </span>
+              <h3 class="font-sans text-lg font-semibold leading-snug">{step.title}</h3>
+              <p class="text-[0.9375rem] leading-relaxed text-[var(--color-text-muted)]">{step.text}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    {/* ════════ LEGALNOŚĆ ════════ */}
+    <section id="legalnosc" class="border-b border-[var(--color-border)] bg-[var(--color-bg-elevated)]">
+      <div class="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+        <div class="grid gap-10 lg:grid-cols-2 lg:items-center">
+          <div>
+            <IconBadge icon="scale" label="Legalność" tone="accent" />
+            <h2 class="mt-4 font-serif text-[length:var(--text-fs-h2)] font-medium leading-tight tracking-tight">
+              Pomoc w pisaniu jest legalna. Oszustwo — nie. Znam różnicę i jej pilnuję.
+            </h2>
+            <p class="mt-5 max-w-[60ch] text-lg leading-relaxed text-[var(--color-text-muted)]">
+              Korepetycje, konsultacje, redakcja i materiały wzorcowe to normalne
+              usługi edukacyjne. Prawo zabrania czego innego: przedstawienia cudzego
+              tekstu jako samodzielnie napisanej pracy — i to oświadczenie składa
+              student, nie pomocnik. Dlatego mówię wprost, do czego służy każdy
+              materiał, który ode mnie dostajesz.
+            </p>
+            <a
+              href="/legalnosc/"
+              class="mt-6 inline-flex items-center gap-2 text-base font-medium text-[var(--color-accent)] no-underline hover:text-[var(--color-accent-hover)]"
+            >
+              Przeczytaj, co dokładnie mówi prawo
+              <Icon name="arrow-right" class="h-4 w-4" />
+            </a>
+          </div>
+
+          <div class="space-y-4">
+            <div class="card-accent-top rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] p-6">
+              <h3 class="font-sans text-base font-semibold">Co robię</h3>
+              <ul class="mt-3 space-y-2.5 text-[0.9375rem] text-[var(--color-text-muted)]">
+                {[
+                  "Piszę opracowania wzorcowe od zera — jako materiał poglądowy do nauki",
+                  "Konsultuję metodologię, strukturę i literaturę",
+                  "Redaguję i koryguję Twój własny tekst",
+                  "Przygotowuję Cię do obrony — znasz pracę, nie tylko jej spis treści",
+                ].map((item) => (
+                  <li class="flex items-start gap-2.5">
+                    <Icon name="check" class="mt-1 h-4 w-4 shrink-0 text-[var(--color-accent)]" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] p-6">
+              <h3 class="font-sans text-base font-semibold">Czego nie robię</h3>
+              <ul class="mt-3 space-y-2.5 text-[0.9375rem] text-[var(--color-text-muted)]">
+                {[
+                  "Nie zachęcam do podpisywania cudzego tekstu własnym nazwiskiem",
+                  "Nie sprzedaję „gotowców” krążących między rocznikami",
+                  "Nie obiecuję trików na oszukanie JSA",
+                ].map((item) => (
+                  <li class="flex items-start gap-2.5">
+                    <Icon name="x" class="mt-1 h-4 w-4 shrink-0 text-[var(--color-accent-secondary)]" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* ════════ FAQ ════════ */}
+    <section id="faq" class="border-b border-[var(--color-border)]">
+      <div class="mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:py-28">
+        <IconBadge icon="chat-guidance" label="FAQ" tone="accent" />
+        <h2 class="mt-4 font-serif text-[length:var(--text-fs-h2)] font-medium leading-tight tracking-tight">
+          Zanim napiszesz — częste pytania
+        </h2>
+        <div class="mt-8 space-y-3">
+          {faq.map((f) => (
+            <details class="group rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-5">
+              <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-sans text-[1.0625rem] font-semibold text-[var(--color-text)] [&::-webkit-details-marker]:hidden">
+                {f.q}
+                <Icon name="chevron-down" class="h-5 w-5 shrink-0 text-[var(--color-text-faint)] transition-transform group-open:rotate-180" />
+              </summary>
+              <p class="mt-3 max-w-[62ch] text-[0.9375rem] leading-relaxed text-[var(--color-text-muted)]">
+                {f.a}
+              </p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* ════════ KONTAKT ════════ */}
+    <section id="kontakt" class="relative overflow-hidden bg-[var(--color-bg-subtle)]">
+      <div class="relative mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:py-28">
+        <div class="text-center">
+          <IconBadge icon="mail" label="Kontakt" tone="accent" />
+          <h2 class="mt-4 font-serif text-[length:var(--text-fs-h2)] font-medium leading-tight tracking-tight">
+            Wyślij temat — resztą zajmę się ja
+          </h2>
+          <p class="mx-auto mt-4 max-w-[55ch] text-lg text-[var(--color-text-muted)]">
+            Dołącz wytyczne promotora albo konspekt, jeśli masz. W ciągu 24 godzin
+            dostaniesz wycenę i propozycję planu działania.
+          </p>
+        </div>
+
+        <div class="mt-12">
+          <ContactForm
+            messageLabel="Temat pracy i czego potrzebujesz"
+            messagePlaceholder="Np. temat, kierunek studiów, termin oddania i z czym utknąłeś…"
+            attachmentHint="Wytyczne promotora, konspekt, fragment pracy — PDF/DOCX (maks. 10 MB/plik, do 5 plików)"
+            submitLabel="Wyślij i poproś o wycenę"
+            successTitle="Wiadomość wysłana"
+            successText="Wycenę i plan działania dostaniesz w ciągu 24 godzin."
+            rodoText="Wyrażam zgodę na przetwarzanie moich danych w celu odpowiedzi na zapytanie. Szczegóły w polityce prywatności."
+            extraFields={[
+              {
+                name: "workType",
+                label: "Typ pracy",
+                type: "select",
+                options: [
+                  "Praca licencjacka",
+                  "Praca magisterska",
+                  "Praca inżynierska",
+                  "Praca doktorska",
+                  "Praca zaliczeniowa",
+                  "Esej",
+                  "Referat / prezentacja",
+                  "Artykuł naukowy",
+                  "Inne",
+                ],
+              },
+              { name: "deadline", label: "Termin oddania", type: "text", placeholder: "np. 15 września 2026" },
+            ]}
+          />
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

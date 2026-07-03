@@ -1,0 +1,226 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import Icon from "../../components/Icon.astro";
+import IconBadge from "../../components/IconBadge.astro";
+import BackgroundDecor from "../../components/BackgroundDecor.astro";
+import CtaSection from "../../components/CtaSection.astro";
+import { siteConfig } from "../../config/site";
+
+const pageUrl = `${siteConfig.url}/legalnosc/`;
+
+const faq = [
+  {
+    q: "Czy korzystanie z pomocy przy pracy dyplomowej jest karalne?",
+    a: "Korzystanie z pomocy — konsultacji, korepetycji, redakcji, materiałów wzorcowych — nie jest karalne i nigdy nie było. Karalne jest co innego: złożenie fałszywego oświadczenia o samodzielnym napisaniu pracy, gdy tekst napisał ktoś inny (art. 272 KK, wyłudzenie poświadczenia nieprawdy). Różnica przebiega więc nie w tym, CZY korzystasz z pomocy, ale w tym, CO oddajesz jako własne.",
+  },
+  {
+    q: "Czym opracowanie wzorcowe różni się od pracy na zamówienie?",
+    a: "Przeznaczeniem i sposobem użycia. Opracowanie wzorcowe pełni tę samą rolę co przykładowe rozwiązania zadań w podręczniku albo wzory pism u prawnika: pokazuje, jak się coś robi, żebyś zrobił to sam. Praca na zamówienie w rozumieniu potocznym to tekst kupiony po to, by podpisać go własnym nazwiskiem — i to jej oddanie naraża studenta na odpowiedzialność.",
+  },
+  {
+    q: "Co grozi studentowi, który odda cudzą pracę jako swoją?",
+    a: "Trzy poziomy konsekwencji: dyscyplinarny (do wydalenia z uczelni włącznie), administracyjny (stwierdzenie nieważności dyplomu — także wiele lat po obronie) i karny (art. 272 KK przewiduje karę do 3 lat pozbawienia wolności). Mówię o tym otwarcie, bo klient świadomy ryzyka korzysta z pomocy inaczej — i mądrzej.",
+  },
+  {
+    q: "Czy nasza współpraca jest poufna?",
+    a: "Tak. Dane z formularza i przesłane materiały służą wyłącznie do realizacji usługi — szczegóły opisuje polityka prywatności. Nie publikuję wykonanych opracowań, nie odsprzedaję ich i nie tworzę z nich „bazy prac”. Każde opracowanie powstaje raz, dla jednej osoby.",
+  },
+];
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Strona główna", item: `${siteConfig.url}/` },
+      { "@type": "ListItem", position: 2, name: "Legalność", item: pageUrl },
+    ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faq.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  },
+];
+---
+
+<BaseLayout
+  title="Czy pomoc w pisaniu prac jest legalna? Co mówi prawo"
+  description="Pomoc w pisaniu prac a prawo: co jest legalne (konsultacje, redakcja, opracowania wzorcowe), gdzie przebiega granica (art. 272 KK) i kto za co odpowiada."
+  canonicalUrl={pageUrl}
+  jsonLd={jsonLd}
+>
+  <Header />
+
+  <main id="main">
+    <section class="relative overflow-hidden border-b border-[var(--color-border)]">
+      <BackgroundDecor variant="spotlight" intensity="subtle" />
+      <div class="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+        <nav aria-label="Okruszki" class="text-sm text-[var(--color-text-faint)]">
+          <a href="/" class="text-[var(--color-text-muted)] no-underline hover:text-[var(--color-text)]">Strona główna</a>
+          <span aria-hidden="true" class="mx-2">/</span>
+          <span class="text-[var(--color-text)]">Legalność</span>
+        </nav>
+        <div class="mt-8 max-w-3xl">
+          <IconBadge icon="scale" label="Prawo i zasady" tone="accent" />
+          <h1 class="mt-5 font-serif text-[length:var(--text-fs-h1)] font-medium leading-[1.1] tracking-tight">
+            Czy pomoc w pisaniu prac jest legalna?
+          </h1>
+          <p class="mt-6 max-w-[60ch] text-lg leading-relaxed text-[var(--color-text-muted)]">
+            Tak — i zamiast ukrywać ten temat, jak robi to większość branży,
+            wolę go rozłożyć na czynniki pierwsze. Poniżej: co dokładnie mówi
+            prawo, gdzie przebiega granica i jak zbudowałem usługę, żeby po
+            właściwej stronie tej granicy stać.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="border-b border-[var(--color-border)] bg-[var(--color-bg-elevated)]">
+      <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+        <div class="grid gap-12 lg:grid-cols-2 lg:items-start">
+          <div>
+            <IconBadge icon="book-open" label="Stan prawny" tone="muted" />
+            <h2 class="mt-4 font-serif text-[length:var(--text-fs-h2)] font-medium leading-tight tracking-tight">
+              Co dokładnie mówi prawo
+            </h2>
+            <div class="mt-5 space-y-4 text-[1.0625rem] leading-relaxed text-[var(--color-text-muted)]">
+              <p class="max-w-[62ch]">
+                W polskim prawie nie ma przepisu zakazującego pomocy w pisaniu
+                prac — tak jak nie ma przepisu zakazującego korepetycji,
+                konsultacji naukowych czy usług redakcyjnych. Pisanie tekstów na
+                zlecenie jest legalną działalnością (ghostwriting funkcjonuje
+                otwarcie w wydawnictwach, polityce i biznesie).
+              </p>
+              <p class="max-w-[62ch]">
+                Przepis, wokół którego wszystko się kręci, dotyczy studenta —
+                nie pomocnika. Art. 272 Kodeksu karnego penalizuje wyłudzenie
+                poświadczenia nieprawdy: student, który składa na uczelni
+                oświadczenie o samodzielnym napisaniu pracy, choć napisał ją
+                ktoś inny, wyłudza od uczelni poświadczenie nieprawdy w postaci
+                dyplomu. Do tego dochodzi odpowiedzialność dyscyplinarna z
+                ustawy Prawo o szkolnictwie wyższym i możliwość unieważnienia
+                dyplomu.
+              </p>
+              <p class="max-w-[62ch]">
+                Wniosek praktyczny: legalność zależy od tego, jak materiał
+                zostanie użyty. Opracowanie wzorcowe wykorzystane jako materiał
+                do nauki — legalne w każdym calu. Ten sam tekst podpisany
+                własnym nazwiskiem i oddany promotorowi — problem studenta,
+                przed którym uczciwie ostrzegam.
+              </p>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <div class="card-accent-top rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg)] p-6 md:p-8">
+              <div class="flex items-center gap-3">
+                <IconBadge icon="scale" tone="accent" />
+                <h3 class="font-sans text-lg font-semibold">Art. 272 Kodeksu karnego</h3>
+              </div>
+              <blockquote class="mt-4 border-l-2 border-[var(--color-accent-secondary)] pl-4 font-serif text-[1.0625rem] italic leading-relaxed text-[var(--color-text)]">
+                „Kto wyłudza poświadczenie nieprawdy przez podstępne wprowadzenie
+                w błąd funkcjonariusza publicznego lub innej osoby upoważnionej
+                do wystawienia dokumentu, podlega karze pozbawienia wolności
+                do lat 3.”
+              </blockquote>
+              <p class="mt-4 text-[0.9375rem] leading-relaxed text-[var(--color-text-muted)]">
+                To oświadczenie o samodzielności — składane przez studenta przy
+                pracy dyplomowej — jest punktem, w którym legalna pomoc może
+                zmienić się w przestępstwo. Dlatego moja usługa kończy się na
+                materiale pomocniczym, a odpowiedzialne użycie należy do Ciebie.
+              </p>
+            </div>
+
+            <div class="rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg)] p-6 md:p-8">
+              <div class="flex items-center gap-3">
+                <IconBadge icon="shield-check" tone="accent" />
+                <h3 class="font-sans text-lg font-semibold">A co z JSA?</h3>
+              </div>
+              <p class="mt-4 text-[0.9375rem] leading-relaxed text-[var(--color-text-muted)]">
+                Jednolity System Antyplagiatowy sprawdza podobieństwo pracy do
+                istniejących tekstów — nie wykrywa, kto pisał. Praca pisana od
+                zera, z poprawnym cytowaniem, generuje niski raport podobieństwa
+                niezależnie od tego, ile pomocy było po drodze. Nie oferuję
+                żadnych usług „obchodzenia” JSA, bo uczciwie napisany tekst
+                niczego obchodzić nie musi.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="relative overflow-hidden border-b border-[var(--color-border)]">
+      <BackgroundDecor variant="dots" intensity="subtle" />
+      <div class="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+        <div class="max-w-2xl">
+          <IconBadge icon="compass-plan" label="Analogia" tone="muted" />
+          <h2 class="mt-4 font-serif text-[length:var(--text-fs-h2)] font-medium leading-tight tracking-tight">
+            Pomoc w nauce ma długą tradycję — to ta sama półka
+          </h2>
+        </div>
+        <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            ["Korepetycje", "korepetytor rozwiązuje z uczniem zadania — a na klasówce uczeń liczy sam", "chat-guidance"],
+            ["Zbiory zadań z rozwiązaniami", "całe wydawnictwa żyją z pokazywania „jak to się robi” krok po kroku", "book-open"],
+            ["Wzory pism i umów", "prawnicy publikują wzorcowe dokumenty; nikt nie nazywa tego oszustwem", "draft-check"],
+            ["Kursy i poradniki pisania", "od kursów academic writing po podręczniki metodologii — uczą na przykładach", "grad-cap"],
+          ].map(([name, desc, icon]) => (
+            <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-5">
+              <IconBadge icon={icon as any} tone="accent" size="sm" />
+              <h3 class="mt-3 font-sans text-base font-semibold">{name}</h3>
+              <p class="mt-1.5 text-[0.875rem] leading-relaxed text-[var(--color-text-muted)]">{desc}</p>
+            </div>
+          ))}
+        </div>
+        <p class="mt-8 max-w-[70ch] text-[1.0625rem] leading-relaxed text-[var(--color-text-muted)]">
+          Opracowanie wzorcowe pod konkretny temat to po prostu najbardziej
+          spersonalizowana wersja tego samego mechanizmu: uczysz się na
+          przykładzie skrojonym pod Twój problem, zamiast na przykładzie z
+          podręcznika, który „prawie” pasuje. Uczciwość tej konstrukcji zależy
+          od jednego — żeby przykład pozostał przykładem.
+        </p>
+      </div>
+    </section>
+
+    <section class="border-b border-[var(--color-border)] bg-[var(--color-bg-elevated)]">
+      <div class="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:py-24">
+        <IconBadge icon="chat-guidance" label="Pytania o legalność" tone="accent" />
+        <h2 class="mt-4 font-serif text-[length:var(--text-fs-h2)] font-medium leading-tight tracking-tight">
+          Pytania, które wypada zadać
+        </h2>
+        <div class="mt-8 space-y-3">
+          {faq.map((f) => (
+            <details class="group rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] p-5">
+              <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-sans text-[1.0625rem] font-semibold text-[var(--color-text)] [&::-webkit-details-marker]:hidden">
+                {f.q}
+                <Icon name="chevron-down" class="h-5 w-5 shrink-0 text-[var(--color-text-faint)] transition-transform group-open:rotate-180" />
+              </summary>
+              <p class="mt-3 max-w-[62ch] text-[0.9375rem] leading-relaxed text-[var(--color-text-muted)]">
+                {f.a}
+              </p>
+            </details>
+          ))}
+        </div>
+        <p class="mt-8 text-sm text-[var(--color-text-faint)]">
+          Ta strona opisuje zasady mojej pracy i ogólny stan prawny — nie stanowi
+          porady prawnej w indywidualnej sprawie.
+        </p>
+      </div>
+    </section>
+
+    <CtaSection
+      title="Wiesz już, na czym stoisz — teraz konkret"
+      text="Napisz, nad czym pracujesz. Dostaniesz wycenę w 24 godziny i jasny opis, co dokładnie będzie moje, a co Twoje."
+    />
+  </main>
+
+  <Footer />
+</BaseLayout>

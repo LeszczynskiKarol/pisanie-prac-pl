@@ -1,0 +1,93 @@
+---
+// HeroIllustration — pisanie-prac.pl.
+// Koncept: kartka pracy dyplomowej (strona tytułowa + linie tekstu, rozdziały),
+// stalówka kreśląca linię w gradiencie indygo→bursztyn, akcenty: cudzysłów, biret.
+// Czysty SVG na zmiennych motywu — działa w dark i light bez zmian.
+---
+
+<div class="relative" aria-hidden="true">
+  <svg viewBox="0 0 480 380" class="h-auto w-full" role="img" aria-label="">
+    <defs>
+      <radialGradient id="hero-halo" cx="38%" cy="36%" r="62%">
+        <stop offset="0%" stop-color="var(--color-accent)" stop-opacity="0.16" />
+        <stop offset="100%" stop-color="var(--color-accent)" stop-opacity="0" />
+      </radialGradient>
+      <linearGradient id="hero-card" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="var(--color-bg-elevated)" />
+        <stop offset="100%" stop-color="var(--color-bg-subtle)" />
+      </linearGradient>
+      <linearGradient id="hero-ink" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="var(--color-accent)" />
+        <stop offset="100%" stop-color="var(--color-accent-secondary)" />
+      </linearGradient>
+    </defs>
+
+    <rect width="480" height="380" fill="url(#hero-halo)" />
+
+    {/* Kartka "za" — sugeruje stos rozdziałów */}
+    <rect x="108" y="52" width="272" height="268" rx="14" transform="rotate(3 244 186)"
+      fill="var(--color-bg-subtle)" stroke="var(--color-border)" stroke-width="1" opacity="0.8" />
+
+    {/* Kartka główna — strona pracy */}
+    <g transform="translate(92 44)">
+      <rect width="280" height="276" rx="14" fill="url(#hero-card)"
+        stroke="var(--color-border)" stroke-width="1" />
+
+      {/* Nagłówek strony tytułowej */}
+      <rect x="70" y="30" width="140" height="10" rx="3" fill="var(--color-text)" opacity="0.8" />
+      <rect x="94" y="48" width="92" height="7" rx="2.5" fill="var(--color-text-muted)" opacity="0.45" />
+
+      {/* Separator rozdziału */}
+      <path d="M28 76h224" stroke="var(--color-border)" stroke-width="1" />
+      <rect x="28" y="90" width="74" height="8" rx="2.5" fill="var(--color-accent)" opacity="0.75" />
+
+      {/* Linie tekstu */}
+      <rect x="28" y="112" width="224" height="6" rx="2" fill="var(--color-text-muted)" opacity="0.35" />
+      <rect x="28" y="127" width="204" height="6" rx="2" fill="var(--color-text-muted)" opacity="0.35" />
+      <rect x="28" y="142" width="216" height="6" rx="2" fill="var(--color-text-muted)" opacity="0.35" />
+      <rect x="28" y="157" width="150" height="6" rx="2" fill="var(--color-text-muted)" opacity="0.35" />
+
+      {/* Blok cytatu z wcięciem — akademicki detal */}
+      <path d="M40 180v34" stroke="var(--color-accent-secondary)" stroke-width="2.5" stroke-linecap="round" />
+      <rect x="52" y="178" width="172" height="6" rx="2" fill="var(--color-text-muted)" opacity="0.45" />
+      <rect x="52" y="193" width="150" height="6" rx="2" fill="var(--color-text-muted)" opacity="0.45" />
+      <rect x="52" y="208" width="96" height="6" rx="2" fill="var(--color-text-muted)" opacity="0.45" />
+
+      {/* Linia pisana stalówką — gradient atramentu */}
+      <path d="M28 246c34-10 58 10 92 2s52-14 96-4"
+        stroke="url(#hero-ink)" stroke-width="3" stroke-linecap="round" fill="none" />
+
+      {/* Numer strony */}
+      <rect x="130" y="258" width="20" height="5" rx="2" fill="var(--color-text-faint)" opacity="0.6" />
+    </g>
+
+    {/* Stalówka nad linią pisma */}
+    <g transform="translate(304 236) rotate(38)" fill="none"
+      stroke="var(--color-accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M-9-30h18l7 21-16 21-16-21z" fill="var(--color-bg-elevated)" />
+      <circle cx="0" cy="-6" r="3" />
+      <path d="M0 -3v10" />
+    </g>
+
+    {/* Cudzysłów — pływający akcent */}
+    <g transform="translate(58 84)" stroke="var(--color-accent-secondary)" stroke-width="2.2"
+      fill="none" stroke-linecap="round" opacity="0.85">
+      <path d="M0 18C-1.5 10.5 1 4.5 6.5 1" />
+      <circle cx="0.6" cy="18.6" r="2.3" fill="var(--color-accent-secondary)" stroke="none" />
+      <path d="M15 18c-1.5-7.5 1-13.5 6.5-17" />
+      <circle cx="15.6" cy="18.6" r="2.3" fill="var(--color-accent-secondary)" stroke="none" />
+    </g>
+
+    {/* Biret — akcent "obrona zaliczona" */}
+    <g transform="translate(398 88)" fill="none" stroke="var(--color-accent)"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9">
+      <path d="m0-6 26 11.5L0 17l-26-11.5z" fill="var(--color-bg-elevated)" />
+      <path d="M-14 11v10c0 4 6.5 7.5 14 7.5S14 25 14 21V11" />
+      <path d="M26 5.5V19" />
+    </g>
+
+    {/* Kropki-akcenty dla głębi */}
+    <circle cx="52" cy="300" r="5" fill="var(--color-accent)" opacity="0.5" />
+    <circle cx="432" cy="322" r="7" fill="var(--color-accent-secondary)" opacity="0.35" />
+  </svg>
+</div>
