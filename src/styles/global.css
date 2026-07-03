@@ -20,7 +20,10 @@
   src: url("/fonts/source-serif-4-var-pl.woff2") format("woff2-variations");
   font-weight: 200 900;
   font-style: normal;
-  font-display: swap;
+  /* optional (nie swap): H1 hero to LCP — swap-repaint po dojściu fontu podbijał
+     LCP do 4s. Font jest preloadowany (zdąży na typowych łączach); na wolnych
+     zostaje metric-adjusted Georgia. */
+  font-display: optional;
 }
 
 /* Font metric overrides — fallbacki o metrykach zbliżonych do webfontów.
