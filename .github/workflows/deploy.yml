@@ -34,6 +34,15 @@ jobs:
         env:
           PUBLIC_API_BASE_URL: ${{ secrets.PUBLIC_API_BASE_URL }}
 
+      - name: Write commit manifest
+        run: |
+          cat > dist/_commit.txt <<EOF
+          sha=$(git rev-parse HEAD)
+          short=$(git rev-parse --short HEAD)
+          ts=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          subject=$(git log -1 --format=%s)
+          EOF
+
       - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -47,7 +56,8 @@ jobs:
             --cache-control "public, max-age=31536000, immutable" \
             --exclude "*.html" \
             --exclude "robots.txt" \
-            --exclude "sitemap*.xml"
+            --exclude "sitemap*.xml" \
+            --exclude "_commit.txt"
 
       - name: Sync HTML (no cache)
         run: |
@@ -56,7 +66,8 @@ jobs:
             --exclude "*" \
             --include "*.html" \
             --include "robots.txt" \
-            --include "sitemap*.xml"
+            --include "sitemap*.xml" \
+            --include "_commit.txt"
 
       - name: Invalidate CloudFront
         run: |
