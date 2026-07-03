@@ -67,7 +67,33 @@ const gaId = siteConfig.features.ga4;
         } catch (e) {}
       </script>
 
-      <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} />
+      {/* gtag.js ładowany po window.load + idle — 149 KB poza oknem pre-LCP.
+          Eventy sprzed załadowania czekają w dataLayer (standard gtag). Consent
+          defaults wyżej odpalają się natychmiast, więc nic nie trackuje przed zgodą. */}
+      <script is:inline define:vars={{ gaId }}>
+        (function () {
+          var loaded = false;
+          function loadGtag() {
+            if (loaded) return;
+            loaded = true;
+            var s = document.createElement('script');
+            s.async = true;
+            s.src = 'https://www.googletagmanager.com/gtag/js?id=' + gaId;
+            document.head.appendChild(s);
+          }
+          if (document.readyState === 'complete') {
+            setTimeout(loadGtag, 1);
+          } else {
+            window.addEventListener('load', function () {
+              if ('requestIdleCallback' in window) {
+                requestIdleCallback(loadGtag, { timeout: 3000 });
+              } else {
+                setTimeout(loadGtag, 1500);
+              }
+            });
+          }
+        })();
+      </script>
 
       <script is:inline define:vars={{ gaId }}>
         gtag('js', new Date());
