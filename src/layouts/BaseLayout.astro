@@ -36,11 +36,9 @@ const absoluteOgImage = ogImage.startsWith("http")
   ? ogImage
   : new URL(ogImage, Astro.site).href;
 
-// FONTS_URL — design.md: Source Serif 4 (nagłówki) + Inter (body).
-// Variable ranges (400..600 / 400..700) = 1 plik woff2 per rodzina/subset zamiast
-// osobnej instancji per waga — ~40% mniej bajtów fontów (LCP fix, Lighthouse 2026-07-03).
-const FONTS_URL =
-  "https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400..600&family=Inter:wght@400..700&display=swap";
+// Fonty self-hosted: variable woff2 z subsetem łacina+PL (public/fonts/,
+// generowane fontTools — patrz LAUNCH-REPORT). Inter 61 KB + Source Serif 123 KB
+// zamiast 350 KB z fonts.gstatic.com przez 2 dodatkowe originy. @font-face w global.css.
 ---
 
 <!doctype html>
@@ -50,17 +48,8 @@ const FONTS_URL =
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-    <link rel="preload" as="style" href={FONTS_URL} />
-    <link
-      rel="stylesheet"
-      href={FONTS_URL}
-      media="print"
-      onload="this.media='all';this.onload=null;"
-    />
-    <noscript><link rel="stylesheet" href={FONTS_URL} /></noscript>
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/source-serif-4-var-pl.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/inter-var-pl.woff2" crossorigin />
 
     {preloadImage && (
       <link

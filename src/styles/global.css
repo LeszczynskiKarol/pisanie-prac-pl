@@ -7,6 +7,22 @@
    Design tokens — override these per-project from
    design.md. Light theme first, dark theme below.
    ────────────────────────────────────────────────── */
+/* Fonty self-hosted — variable woff2, subset łacina+PL (public/fonts/). */
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/inter-var-pl.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Source Serif 4";
+  src: url("/fonts/source-serif-4-var-pl.woff2") format("woff2-variations");
+  font-weight: 200 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Font metric overrides — fallbacki o metrykach zbliżonych do webfontów.
    Eliminują layout shift przy font-swap (CLS z 0.13 → ~0, Lighthouse 2026-07-03). */
 @font-face {
