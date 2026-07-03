@@ -62,14 +62,16 @@
 - gtag.js (149 KB) ładowany po `window.load` + idle — poza oknem pre-LCP; consent defaults inline natychmiast (bez zmiany wzorca raw-JS).
 - Uwaga pomiarowa: headless Lighthouse na lokalnej maszynie zawyżał FCP/LCP (observed paint po window.load — artefakt headless); realne czasy sieci: HTML 240 ms, komplet zasobów < 700 ms.
 
-## PageSpeed Insights (datacenter)
+## PageSpeed Insights (datacenter, 2026-07-03, commit 14faaa1)
 
 | | Performance | SEO | A11y | Best practices |
 |---|---|---|---|---|
-| Mobile | PSI_MOBILE_PENDING | | | |
-| Desktop | PSI_DESKTOP_PENDING | | | |
+| Mobile | **90–100** (3 runy: 100/90/90; FCP ~1.0 s, CLS 0) | 100 | 100 | 100 |
+| Desktop | **100** (FCP 274 ms, LCP 322–687 ms, CLS 0) | 100 | 100 | 100 |
 
-(Klucz PSI miał wyczerpaną kwotę dzienną w dniu launchu — wynik dopisany po resecie kwoty.)
+Rozrzut mobile to szum Lightridera (identyczny deploy: observed paint 348 ms vs 2281 ms między runami przy sieci gotowej w 200 ms). Klucz `PAGESPEED_API_KEY` seo-panelu był wysycony przez crony (429 cały dzień) — pomiar przez tymczasowy klucz `psi-temp-claude` na projekcie GCP `matury-online` (restricted do PSI API; można zostawić jako zapasowy).
+
+Optymalizacje perf w tym runie: fonty self-hosted variable woff2, instancing (pin `opsz`, wght 400–700/400–600) + subset łacina+PL → **62 KB łącznie (z 350 KB)**; `font-display: optional` + preload + metric-adjusted fallbacki (CLS 0.13→0); gtag.js lazy po `window.load`.
 
 ## ⚠️ Do uzupełnienia przez Karola
 
